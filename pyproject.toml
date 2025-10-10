@@ -1,0 +1,31 @@
+[project]
+name = "fastapi-exp"
+version = "0.1.0"
+description = "FastAPI experimental project"
+readme = "README.md"
+authors = [
+    { name = "Ray Doue", email = "rrdoue@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard-no-fastapi-cloud-cli]>=0.118.3",
+]
+
+[project.scripts]
+fastapi-exp = "fastapi_exp:main"
+
+[build-system]
+requires = ["uv_build>=0.8.22,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
+
+[[tool.uv.index]]
+name = "test_pypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
