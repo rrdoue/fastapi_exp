@@ -1,14 +1,11 @@
-# from fastapi_exp import sqlmodel_example
-# from fastapi import sql_model
-from typing import Union, Annotated
-from fastapi import Depends, FastAPI, HTTPException, Query
-from pydantic import BaseModel
-# from previous work in other files
 from datetime import date, datetime
 from decimal import Decimal
-# import json  # FastAPI may accommodate all JSON formatting :)
+from environs import env
+from fastapi import Depends, FastAPI, HTTPException, Query
+import json  # FastAPI may accommodate all JSON formatting :)
+from pathlib import Path
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from typing import Optional
+from typing import Union, Annotated, Optional
 
 
 '''
@@ -44,8 +41,20 @@ def serialize_json(obj):
     raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
 
-# Our database url
-DATABASE_URL = "postgresql://<user>:<password>>@<server>:<tcp-port>/<database>"
+# Alternative for obtaining the current directory, this one using pathlib, another choice is os
+# Environs then reads the contents of the specified file
+BASE_DIR = Path(__file__).parent
+env.read_env(BASE_DIR / 'conf' / 'fastapi_exp.cnf', recurse=False)
+
+# Set the variables from the .env file, in this case, fastapi.cnf
+DATABASE_AUTH_USER = env.str('DATABASE_AUTH_USER')
+DATABASE_AUTH_PASSWD = env.str('DATABASE_AUTH_PASSWD')
+DATABASE_PORT = env.int('DATABASE_PORT')
+DATABASE_SERVER = env.str('DATABASE_SERVER')
+DATABASE = env.str('DATABASE')
+DEBUG = env.bool('DEBUG', default=False)
+
+DATABASE_URL = f'postgresql://{DATABASE_AUTH_USER}:{DATABASE_AUTH_PASSWD}@{DATABASE_SERVER}:{DATABASE_PORT}/{DATABASE}'
 
 engine = create_engine(DATABASE_URL, echo=True)  # format from previous file
 
