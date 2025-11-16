@@ -1,9 +1,14 @@
 from datetime import date, datetime
 from decimal import Decimal
+
+import psycopg2
 from environs import env
 from fastapi import Depends, FastAPI, HTTPException, Query
 import json  # FastAPI may accommodate all JSON formatting :)
 from pathlib import Path
+from psycopg2 import errors
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from typing import Union, Annotated, Optional
 
@@ -77,8 +82,18 @@ def read_employees(
     limit: Annotated[int, Query(le=100)] = 100,
 ) -> list[Employees]:
     # statement = select(Employees)
-    employees = session.exec(select(Employees))
-    return employees
+    try:
+        employees = session.exec(select(Employees))
+        return employees
+    except SQLAlchemyError as sqla_error:
+        # Catch other SQLAlchemy errors and potentially re-raise the original DBAPI error
+        # For example, to re-raise a general psycopg2 OperationalError:
+        if isinstance(sqla_error.orig, psycopg2.OperationalError):
+            raise HTTPException(status_code=503, detail='Psycopg threw an operational database connection error, '
+                                                        'please check database connectivity.')
+        else:
+            raise HTTPException(status_code=500, detail="An unexpected database error occurred.")
+
 
 
 '''
