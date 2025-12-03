@@ -1,0 +1,57 @@
+# Python (Python-generated and other build files, including uv additions)
+*.py[oc]
+__pycache__/
+build/
+dist/
+wheels/
+*.egg-info
+notebooks
+
+# Envronment files with sensitive information, such as dotenv or environs files, but only the .env file.  Other .env files, like .env.example, are allowed.
+.env
+
+# Python virtual environment-specific directories
+.venv*
+venv*
+*venv
+
+# Database
+db.sqlite3
+
+# Static folder at project root (Django)
+
+/static/
+
+# macOS
+._*
+.apdisk
+.AppleDB
+.AppleDesktop
+.AppleDouble
+.com.apple.timemachine.donotpresent
+.DocumentRevisions-V100
+.DS_Store
+.fseventsd
+.LSOverride
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+*.icloud
+Desktop.ini
+Network Trash Folder
+Temporary Items
+Thumbs.db
+
+# Windows
+Thumbs.db*
+ehthumbs*.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Visual Studio, PyCharm
+.vscode/
+.history/
+*.code-workspace
+.idea
+
