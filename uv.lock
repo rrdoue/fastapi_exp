@@ -139,7 +139,7 @@ standard-no-fastapi-cloud-cli = [
 
 [[package]]
 name = "fastapi-exp"
-version = "0.1.2rc1"
+version = "0.1.2rc2"
 source = { editable = "." }
 dependencies = [
     { name = "environs" },
