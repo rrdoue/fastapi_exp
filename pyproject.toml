@@ -29,8 +29,8 @@ dev = [
 
 [tool.uv.build-backend]
 source-exclude = [
-    "src/fastapi_exp/conf/fastapi_exp.cnf,"
-    "client/Gne_HR_Sample.zip,"
+    "src/fastapi_exp/conf/fastapi_exp.cnf",
+    "client/Gne_HR_Sample.zip",
 ]
 
 [[tool.uv.index]]
