@@ -96,11 +96,11 @@ def read_employees(
 
 
 
-'''
 # Basic functionality checks
 @app.get("/")
 def read_root():
     return {'message': 'Hello World'}
+'''
 
 
 # Basic functionality checks
