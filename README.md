@@ -6,13 +6,13 @@ A FastAPI example that runs a simple integration using FastAPI as the server and
 
 This project shows a complete integration use case including FastAPI connecting to a database, where another client application calls FastAPI using a http get request, then processes the data received from FastAPI.  This example demonstrates FastAPI acting as a server or source of data that receives a http get call, accesses a PostgreSQL database, queries a table, and returns an export of the table to the client.  The client is a webMethods integration server that receives the json result from FastAPI and saves the result as a file on the file system.
 
-In a simpler implementation, one omit webMethods, using only the FastAPI code base with the provided docs and redoc UI and a PostgreSQL database to demonstrate FastAPI retrieving data from the database, then display the result in the FastAPI docs UI.  This avoids having to install webMethods integration server or allows the use of another client as available.
+In a simpler implementation, one can omit webMethods, using only the FastAPI code base with the provided docs and redoc UI and a PostgreSQL database to demonstrate FastAPI retrieving data from the database, then display the result in the FastAPI docs UI.  This avoids having to install webMethods integration server or allows the use of another client as available.
 
 ## Features
 
 - FastAPI server responds to a http request, returning json-formatted data from a human resources database employees table hosted on a PostgreSQL server.
 - A webMethods integration server, hosting a custom package, runs a scheduled task to retrieve the FastAPI get result and saves the employee records to a json file. 
-  * Alternatively, one can use the provided docs application in FastAPI to make the request and display the result.  This could be a good first step because you can confirm the FastAPI installation and database connectivity works as expected.
+  * Alternatively, one can use the provided docs application in FastAPI to make the request and display the result.  This is a good first step because you can confirm the FastAPI installation and database connectivity works as expected.
 
 ## Python Dependencies
 
@@ -53,7 +53,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Other non-Python Resources
+## Other Non-Python Resources
 
 Running the complete FastAPI project as is requires a PostgreSQL database and a webMethods integration server on the local network.
 
@@ -69,7 +69,7 @@ The client that requests the HR sample data is a webMethods integration server r
 
 Using the suggested PostgreSQL server to host the HR database, modify the .env-like example file called `fastapi_exp.cnf.example` to set the database server and other key-value pairs used by FastAPI.  The file is located at `fastapi/src/fastapi_exp/conf`.  Save the example as `fastapi_exp.cnf`.  Other database applications may require additional .env file modifications.
 
-For those not accustomed to database security used by databases like PostgreSQL and MySQL, setting up something like a PostgreSQL `pg_hba.conf` file for FastAPI to access the database can appear confusing.  However, plenty of help is available on line.  For some suggestions based on my experience, see [database](/Users/rrdoue/Documents/code/python/projects/fastapi_exp/z_non-python_resources/database/about_database.md).  [database](./blob/master/LICENSE)
+For those not accustomed to database security used by databases like PostgreSQL and MySQL, setting up something like a PostgreSQL `pg_hba.conf` file for FastAPI to access the database can appear confusing.  However, plenty of help is available on line.  For some suggestions based on my experience, see [database](z_non-python_resources/database/about_database.md).
 
 The FastAPI server name is embedded in the webMethods client code and requires an update for the client to call another server.  A Python .env structure for webMethods was beyond the scope of this project.  While not trivial, changing the server name involves modifying the `pub.client.http` service in the custom Gne_HR_Sample package.  Change the server name `rogers-mcp` to the name of your FastAPI server and save the changes.  Note for calling FastAPI by a server name, rather than localhost, run the server in production mode.  Of course, if one is running FastAPI on the same system as webMethods, one can run FastAPI in development mode and use `localhost`.
 
