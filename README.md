@@ -59,7 +59,7 @@ Running the complete FastAPI project as is requires a PostgreSQL database and a 
 
 ### Locally Hosted Data
 
-The data source is a set of sample human resources tables courtesy of SQLTutorial.  The project data was hosted on a local PostgreSQL server, where nearly any PostgreSQL version should accommodate the database.  Any database application, including SQLite, should also be sufficient, but requires FastAPI code changes.  A database export and the SQL Tutorial text files are located in `z_non-python_resources/database`.
+The data source is a set of sample human resources tables courtesy of SQLTutorial.  The project data was hosted on a local PostgreSQL server, where nearly any PostgreSQL version should accommodate the database.  Any database application, including SQLite, should also be sufficient, but requires FastAPI code changes.  A database export and the SQL Tutorial text files are located at [z_non-python_resources/database](z_non-python_resources/database).
 
 ### Custom Client Application
 
