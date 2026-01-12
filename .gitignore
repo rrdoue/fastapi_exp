@@ -9,6 +9,7 @@ notebooks
 
 # Envronment files with sensitive information, such as dotenv or environs files, but only the .env file.  Other .env files, like .env.example, are allowed.
 .env
+src/fastapi_exp/conf/fastapi_exp.cnf
 
 # Python virtual environment-specific directories
 .venv*
