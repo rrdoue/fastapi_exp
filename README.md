@@ -2,18 +2,18 @@
 
 A FastAPI example that runs a simple integration using FastAPI as the server and webMethods Integration Server as a client that calls FastAPI.  The target audience is someone new to FastAPI that wants to learn about FastAPI connecting to a database and returning results.  webMethods integration server is not absolutely required, but it shows a real-world integration example of one application calling another application.
 
-This example is targeted for beginners.  Experienced developers are probably well past the level of difficulty of this project.  We're providing these instructioms assuming that one doesn't have complete familiarity with all of the components involved in this project.  We're more concerned about Python beginners since most developers are likely comfortable with either Python or webMethods and a database. 
+This example is targeted for beginners.  Experienced developers are probably well past the difficulty level of this project.  We're providing these instructioms assuming that one doesn't have complete familiarity with all of the technology.  We're more concerned about Python beginners since most developers are likely comfortable with either Python or webMethods and a database. 
 
 ## Overview
 
-This project shows a complete integration use case including FastAPI connecting to a database, where another client application calls FastAPI using a http get request, then processes the data received from FastAPI.  This example demonstrates FastAPI acting as a server or source of data that accesses a PostgreSQL database, queries a table, and returns an export of the table to the client.  The client is a webMethods integration server that receives the json result from FastAPI and saves the result as a file to the file system.
+This project shows a complete integration use case including FastAPI connecting to a database, where another client application calls FastAPI using a http get request, then processes the data received from FastAPI.  This example demonstrates FastAPI acting as a server or source of data that accesses a PostgreSQL database, queries a table, and returns an export of a table to the client.  The client is a webMethods integration server that receives the json result from FastAPI and saves the result as a file to the file system.
 
-In a simpler implementation, one can omit webMethods, using only the FastAPI code base with the provided docs and redoc UI and a PostgreSQL database to demonstrate FastAPI retrieving data from the database, then display the result in the FastAPI docs UI.  This avoids having to install webMethods integration server or allows the use of another client as available.
+In a simpler implementation, one can omit webMethods, using only the FastAPI code base with the provided docs and redoc UI and a PostgreSQL database to demonstrate FastAPI retrieving data from the database, then display the result in the FastAPI docs UI.  This avoids having to install webMethods integration server or allows the use of another client as available.  Or more simply, just follow the Python fastapi_exp installation instructions and run the FastAPI Hello World example.  For that example, the FastAPI documentation is probably sufficient.
 
 ## Features
 
 - FastAPI server responds to a http get request, returning json-formatted data from a human resources database employees table hosted on a PostgreSQL server.
-- A webMethods integration server, hosting a custom package, calls FastAPI and saves the employee records to a json file.  Integration server includes functionality to run a scheduled task, typical of production environments.
+- A webMethods integration server, hosting a custom package, calls FastAPI and saves the employee records json-formatted result to a file.  Integration server optionally includes functionality to run a scheduled task, typical of production environments.
   * Alternatively, one can use the provided docs application in FastAPI to make the request and display the result.  This is a good first step because you can confirm the FastAPI installation and database connectivity works as expected, then include the webMethods functionality as desired.
 
 ## Python Dependencies
@@ -26,51 +26,66 @@ In a simpler implementation, one can omit webMethods, using only the FastAPI cod
 
 ## FastAPI Code Installation
 
-These instructions are provided for setting up the project to run in an IDE or command line terminal using any editor.  We're attempting to cover both Python venv and Astral uv since one has been standard for some time and the other is a valid alternative.
+These instructions are provided for setting up the project to run in an IDE or command line terminal using any editor.  We're attempting to cover both Python venv and Astral uv since one has been standard for some time and the other is a recent alternative.  Note the `$ ` character is a sample command line prompt. Your prompt in terminal, dos, or powershell is probably different.
 
 ### Get the Source
 
-Clone the repository from GitHub or download the zip file following the instructions on 
+Clone the repository using the SSH private (on your system) and public (on GitHub) keys or download the zip file.  
 
 ```bash
 # Clone the repository from GitHub
-git clone https://github.com/rrdoue/fastapi_exp.git
-cd fastapi_exp
+$ cd to/desired/file_system/location
+$ git clone https://github.com/rrdoue/fastapi_exp.git
+$ cd fastapi_exp
 ```
-###### **_OR_** if you don't have the SSH public and private keys set up in GitHub for using the clone command, download the file and set it up manually
+###### **_OR_** if you don't have the SSH public and private keys for using the git `clone` command, download the file and unzip it
 ```bash
-# Download the repository file from GitHub using a browser or other method, saving the file as fastapi_exp.zip, then unzip the file into the desired directory.  Note the download should default to fastapi_exp-main, but change the name to fastapi_exp, although one still needs to rename the resulting directory if you want to follow the instructions exactly.
-mv fastapi_exp-main fastapi_exp
-cd fastapi_exp
-git init  # optional, see note below
+# Download the repository file from GitHub using a browser or another method, then unzip the file into the desired directory.  Note the download defaults to fastapi_exp-main.  After unzipping the file, one can rename the resulting directory if you want to copy and paste the instructions here more easily.
+$ gunzip fastapi_exp-main.zip
+$ mv fastapi_exp-main fastapi_exp
+$ cd fastapi_exp
 ```
 
-#### Notes
-- using clone includes the git repository, but downloading the zip file does not. This is not a concern if one doesn't plan on tracking any file changes.
-- running git above initializes fastapi_exp as a git repository
+### Set Up a Project Using uv or virtualenv
 
-### Set Up a Project Using uv or pyenv, otherwise one has to add these to your default Python installation, which you probably don't want to retain indefinitely
+- otherwise one has to add these to your default Python installation
+- allows one to clean up the files easily just by deleting the directory
 
 #### uv (assumes uv is installed)
 
 ```bash
 # run the following to set up the uv project, which creates a virtual environment and adds dependencies
-uv sync
+$ uv sync
 ```
 
-#### pyenv (available as part of a Python 3 installation)
+#### virtualenv (available as part of a Python 3 installation)
 
 ```bash
 # Note one may have to run these as python3 and pip3 in this section
 # create and activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows, use .venv\Scripts\activate, although PowerShell seems to have a slightly different form of the command
+$ python -m venv .venv
+$ source .venv/bin/activate  # On Windows, use .venv\Scripts\activate, although PowerShell seems to have a slightly different form of the command
 
 # install dependencies
 pip install -r requirements.txt
 
-# install the package in development mode, enabling one to use any file changes without additional work
-pip install -e .
+# install the package in development mode, enabling one to use file changes more easily
+$ pip install -e .
+```
+
+#### git Notes, the Last Setup Option (assumes git is installed)
+- In accessing a repository on GitHub, using clone includes the git repository, but downloading the zip file does not. This is not a concern if one doesn't plan on tracking any file changes.
+- If one wants to use git to manage file changes, there are a few additional steps after the manual download
+- Initializes fastapi_exp as a git repository, then adds and commits the entire directory to git
+
+```bash
+$ git status
+On branch main
+ ... (the ellipses indicate you'll see more of a response than included here)
+# Now add the entire fastapi_exp directory except for the objects in the .gitignore file
+$ git add .
+$ git commit -m "Initial local fastapi_exp commit."
+ ...
 ```
 
 ## Other Non-Python Components
@@ -91,7 +106,7 @@ As described in Setup section, the Hello World example is included in the code b
 
 ###  FastAPI
 
-The steps in this paragraph must be executed whether running the included FastAPI Hello World example or accessing  the human resources database.  Modify the .env-like example file called `fastapi_exp.cnf.example` to set the database server and other key-value pairs used by FastAPI.  The file is located at `fastapi/src/fastapi_exp/conf`.  Save the changes as `fastapi_exp.cnf`.  The file is shown in the directory structure, but not included in the GitHub repository for security reaasons. 
+The steps in this paragraph must be executed whether running the included FastAPI Hello World example or accessing  the human resources database.  Modify the .env-like example file called `fastapi_exp.cnf.example` to set the database server and other key-value pairs used by FastAPI.  The file is located at `fastapi/src/fastapi_exp/conf`.  Save the changes as `fastapi_exp.cnf`.  The file is shown in the directory structure below, but not included in the GitHub repository for security reaasons. 
 
 For running only the FastAPI example, the configuration file must still be set with values, whether or not they represent any real values.  We will try to seed the example file with data when time allows to avoid this.
 
@@ -99,26 +114,32 @@ Using other database applications may require additional .env file and fastapi c
 
 ### Database
 
-Import the hr_sample database into your PostgreSQL server using the project's dump file, or create your own database add the SQL Tutorial objects and data.  Those files and suggestions in the about_database.md file are located at [z_non-python_resources/database](z_non-python_resources/database).
+Import the hr_sample database into your PostgreSQL server using the project's dump file, or create your own database and add the SQL Tutorial objects and data.  Those files and suggestions in the about_database.md file are located at [z_non-python_resources/database](z_non-python_resources/database).
 
 ### Usage
 
-After adding the database to the PostgreSQL server and configuring the FastAPI .env-like file, one can run the FastAPI server using the following from the command line or a terminal application in something like PyCharm.
+After adding the database to the PostgreSQL server and configuring the fastapi_exp .env-like file, one can run the FastAPI server using the following from the command line or a terminal application in something like PyCharm.
 
 - Non-uv Project Environment
 
 ```bash
 # Ensure the venv is active
-source .venv/bin/activate
+$ source .venv/bin/activate
 
 # On Windows
-.venv\Scripts\activate
+$ .venv\Scripts\activate
 
 # production mode
-fastapi src/fastapi_exp/main.py
+$ fastapi src/fastapi_exp/main.py
 
 # development mode
-fastapi dev src/fastapi_exp/main.py
+$ fastapi dev src/fastapi_exp/main.py
+
+# to shut down the virtual environment
+$ .venv/bin/deactivate
+
+# or on Windows
+$ .venv\Scripts\deactivate
 ```
 
 - uv Project Environment
@@ -128,10 +149,10 @@ fastapi dev src/fastapi_exp/main.py
 
 # production mode
 
-uv run fastapi run src/fastapi_exp/main.py
+$ uv run fastapi src/fastapi_exp/main.py
 
 # development mode
-uv run fastapi dev src/fastapi_exp/main.py
+$ uv run fastapi dev src/fastapi_exp/main.py
 ```
 
 Navigate to the FastAPI docs page to test the installation, for example, at the following page:
