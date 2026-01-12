@@ -5,10 +5,10 @@
 # These values are oriented toward a PostgreSQL database
 
 # Add the authenticated and authorized user for the database connection
-DATABASE_AUTH_USER=<user>
-DATABASE_AUTH_PASSWD=<password>
-DATABASE_PORT=<tcp-port>
-DATABASE_SERVER=<server>
-DATABASE=<database>
+DATABASE_AUTH_USER=database_user
+DATABASE_AUTH_PASSWD=password123
+DATABASE_PORT=database_server_port
+DATABASE_SERVER=database_server
+DATABASE=database_name
 # Debug should be a boolean value, for example, True or False
 DEBUG=True
