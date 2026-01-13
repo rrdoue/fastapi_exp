@@ -120,6 +120,8 @@ Import the hr_sample database into your PostgreSQL server using the project's du
 
 After adding the database to the PostgreSQL server and configuring the fastapi_exp .env-like file, one can run the FastAPI server using the following from the command line or a terminal application in something like PyCharm.
 
+To stop a running FastAPI server at any time in the terminal, with the focus in the terminal, select control-c to end the process.
+
 - Non-uv Project Environment
 
 ```bash
