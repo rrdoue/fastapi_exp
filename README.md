@@ -41,7 +41,7 @@ $ cd fastapi_exp
 ###### **_OR_** if you don't have the SSH public and private keys for using the git `clone` command, download the file and unzip it
 ```bash
 # Download the repository file from GitHub using a browser or another method, then unzip the file into the desired directory.  Note the download defaults to fastapi_exp-main.  After unzipping the file, one can rename the resulting directory if you want to copy and paste the instructions here more easily.
-$ gunzip fastapi_exp-main.zip
+$ unzip fastapi_exp-main.zip
 $ mv fastapi_exp-main fastapi_exp
 $ cd fastapi_exp
 ```
@@ -90,15 +90,15 @@ $ git commit -m "Initial local fastapi_exp commit."
 
 ## Other Non-Python Components
 
-Running the complete FastAPI project as provided requires a PostgreSQL database and a webMethods integration server on the local network.  However, if one just completes the previous steps and the configuration file changes in the Setup section, you can run the FastAPI Hello World example included in the FastAPI documentation.
+Running the complete FastAPI project as provided requires a PostgreSQL database and a webMethods integration server on the local network.  However, if one just completes the previous steps in the Setup section, you can run the FastAPI Hello World example included in the FastAPI documentation.
 
 ### Locally Hosted Data (PostgreSQL)
 
-The data source is a set of sample human resources tables courtesy of SQLTutorial.  The project data was hosted on a local PostgreSQL server, where nearly any PostgreSQL version should accommodate the database.  Other database applications, including SQLite, should also be sufficient, but require Python dependency and FastAPI code changes.  See [about_database.txt](../z_non-python_resources/database/about_database.md) for suggestions about the included files and connecting to the database if one has to set up PostgreSQL.
+The data source is a set of sample human resources tables courtesy of SQLTutorial.  The project data was hosted on a local PostgreSQL server, where nearly any PostgreSQL version should accommodate the database.  Other database applications, including SQLite, should also be sufficient, but require Python dependency and FastAPI code changes.  See [about_database.md](../z_non-python_resources/database/about_database.md) for suggestions about the included files and connecting to the database if one has to set up PostgreSQL.
 
 ### Custom Client Application (webMethods)
 
-The client that requests the HR sample data is a webMethods integration server running flow services developed using the webMethods Service Designer IDE.  webMethods includes a number of applications, where a majority of the custom code executes on integration server, a form of a java application server.  One of the latest (2025) versions of integration server, or the webMethods Microservices Runtime, is included in the publicly available Service Designer IDE on the IBM TechXchange site.  One needs an IBM TechXchange account to download the software.  See [about_webMethods.txt](../z_non-python_resources/webMethods/about_webMethods.md) for suggestions about updating and hosting the webMethods package on integration server.
+The client that requests the HR sample data through FastAPI is a webMethods integration server, a form of a java application server.  Integration server is included in the publicly available Service Designer IDE on the IBM TechXchange site, where one needs an IBM TechXchange account to download the software.
 
 As described in Setup section, the Hello World example is included in the code base to allow for quick testing of the FastAPI installation and in the event that one doesn't want to mess with the webMethods client installation and configuration steps.
 
@@ -106,9 +106,9 @@ As described in Setup section, the Hello World example is included in the code b
 
 ###  FastAPI
 
-The steps in this paragraph must be executed whether running the included FastAPI Hello World example or accessing  the human resources database.  Modify the .env-like example file called `fastapi_exp.cnf.example` to set the database server and other key-value pairs used by FastAPI.  The file is located at `fastapi/src/fastapi_exp/conf`.  Save the changes as `fastapi_exp.cnf`.  The file is shown in the directory structure below, but not included in the GitHub repository for security reaasons. 
+For running only the FastAPI examples, just copy `fastapi_exp.cnf.example` to `fastapi_exp.cnf` or save a copy of `fastapi_exp.cnf.example` as `fastapi_exp.cnf`.  The installation requires the existence of a `fastapi_exp.cnf` file`.
 
-For running only the FastAPI example, the configuration file must still be set with values, whether or not they represent any real values.  We will try to seed the example file with data when time allows to avoid this.
+The steps in this paragraph must be executed when accessing the human resources database.  Modify the .env-like example file called `fastapi_exp.cnf.example` to set the database server and other key-value pairs used by FastAPI.  The file is located at `fastapi/src/fastapi_exp/conf`.  Save the changes as `fastapi_exp.cnf`.  The file is shown in the directory structure below, but not included in the GitHub repository for security reaasons. 
 
 Using other database applications may require additional .env file and fastapi code modifications.
 
@@ -116,13 +116,17 @@ Using other database applications may require additional .env file and fastapi c
 
 Import the hr_sample database into your PostgreSQL server using the project's dump file, or create your own database and add the SQL Tutorial objects and data.  Those files and suggestions in the about_database.md file are located at [z_non-python_resources/database](z_non-python_resources/database).
 
-### Usage
+### webMethods
+
+One needs a working webMethods Integration Server to execute the client integration package. Installing and configuring Integration Server is not necessarily more difficult than working with PostgreSQL, but since it is a proprietary application, public domain help is more limited.  See [about_webMethods.md](../z_non-python_resources/webMethods/about_webMethods.md) for suggestions about installing and  configuring integration server, and hosting the custom webMethods package.
+
+## Usage
 
 After adding the database to the PostgreSQL server and configuring the fastapi_exp .env-like file, one can run the FastAPI server using the following from the command line or a terminal application in something like PyCharm.
 
 To stop a running FastAPI server at any time in the terminal, with the focus in the terminal, select control-c to end the process.
 
-- Non-uv Project Environment
+- virtualenv Project Environment
 
 ```bash
 # Ensure the venv is active
@@ -131,11 +135,11 @@ $ source .venv/bin/activate
 # On Windows
 $ .venv\Scripts\activate
 
-# production mode
-$ fastapi src/fastapi_exp/main.py
-
 # development mode
 $ fastapi dev src/fastapi_exp/main.py
+
+# production mode
+$ fastapi run src/fastapi_exp/main.py
 
 # to shut down the virtual environment
 $ .venv/bin/deactivate
@@ -149,28 +153,32 @@ $ .venv\Scripts\deactivate
 ```bash
 # Note on uv, the project environment is nearly always active, but the activate command is the same as above if needed
 
-# production mode
-
-$ uv run fastapi src/fastapi_exp/main.py
-
 # development mode
 $ uv run fastapi dev src/fastapi_exp/main.py
+
+# production mode
+$ uv run fastapi run src/fastapi_exp/main.py
 ```
 
-Navigate to the FastAPI docs page to test the installation, for example, at the following page:
+Navigate to the FastAPI root location and docs page to test the installation, for example, at the following pages:
 
 ```bash
 # production mode accessing FastAPI from the another system in a browser
+
+http://<host_name>:8000/
+
 http://<host_name>:8000/docs
 
 # development mode accessing FastAPI from the same system in a browser
+
+http://localhost:8000/
+
 http://localhost:8000/docs
 ```
 
-The Hello World example and integration are available in the docs application as get requests.  The integration is called `Read Employees` and the example is called `Read Root`.
+At a minimum, one can test the FastAPI installtion by executing the Hello World example at the document root.  The Hello World example and integration are both available in the docs application as get requests. The fastapi_exp database call, or get request, is called `Read Employees` and the Hello World example is called `Read Root`. Remember for the database call, one has to have a working PostgreSQL server and the hr_sample employees table available.
 
-
-After importing the custom webMethods package included in the project [Gne_HR_Sample.zip](../z_non-python_resources/webMethods) directory, then updating the webMethods client FastAPI server name and system directory file location in the custom package, one can execute the webMethods service that calls FastAPI and creates an export file.
+After installing and configuring the webMethods integration server and importing the custom webMethods package included in the project repository [webmethods](../z_non-python_resources/webMethods) directory, one can execute the webMethods service that calls FastAPI and creates an export file. The webMethods readme file in the same location as the zip file documents the installation and configuration steps.
 
 ## Project Structure
 
