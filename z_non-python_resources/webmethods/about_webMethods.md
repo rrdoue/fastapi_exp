@@ -228,11 +228,11 @@ The fastapi_exp webMethods integration produces a json file that is saved to the
 
    2. The integration server should respond with some form of `WmPublic package reloaded.`.
 
-## Testing and Running the Client Integration in Integration Server
+## Usage: Testing and Running the Client Integration in Integration Server
 
-If finishing this webMethods section is the last one completed, the entire integration should be ready for demonstration. To run the client integration, execute the following in the integration server Administrator application:
+If finishing this webMethods section is the last one completed, the entire integration should be ready for demonstration. To manually run the client integration, execute the following in the integration server Administrator application:
 
-1. This version of Administrator seems to open in the last location when one is logged out automatically.  Navigate to Packages, where it defaults to Management, the list of packages.
+1. This version of Administrator seems to open in the last location when one is logged out automatically. Navigate to Packages, where it defaults to Management, the list of packages.
 
 2. Select the Gne_HR_Sample package.
 
@@ -312,3 +312,19 @@ In a simple integration, one might schedule this export to run on some interval,
 ## End 
 
 If you've gotten this far, congratulations on staying with the project! There's more in this project than I expected, or documentation is just more time-consuming.
+
+We should probably add some footnotes to this document, but for now just include references. We're also including the Service Designer reference documentation, but most of the information in this document is found in the Administrator documentation. There is also a helpful article on managing allowed access paths.
+
+
+#### References
+
+IBM. (05 January 2026). *Administering webMethods Integration Server*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=guide-administering-webmethods-integration-server](https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=guide-administering-webmethods-integration-server)
+
+IBM. (05 January 2026). *Integration Server Administrator's Guide*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=integration-server-administrators-guide]9https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=integration-server-administrators-guide)
+
+IBM. (11 November 2025). *Using Integration Server Administrator*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/10.15.0?topic=guide-using-integration-server-administrator](https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/10.15.0?topic=guide-using-integration-server-administrator)
+
+IBM. (23 October 2025). *About webMethods Service Development*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-designer/11.1.0?topic=help-about-webmethods-service-development#id0ce68342-958d-4630-a303-90ed7e0f630e](https://www.ibm.com/docs/en/webmethods-integration/wm-designer/11.1.0?topic=help-about-webmethods-service-development#id0ce68342-958d-4630-a303-90ed7e0f630e)
+
+Ahmed, Mubarik. (20 October 2022). *Specified path is not on the [allowedWritePaths] allowed list in the fileAccessControl*. Retrieved 31 January 2026, from [https://mubarikahmed.wordpress.com/2022/10/20/specified-path-is-not-on-the-allowedwritepaths-allowed-list-in-the-fileaccesscontrol/](https://mubarikahmed.wordpress.com/2022/10/20/specified-path-is-not-on-the-allowedwritepaths-allowed-list-in-the-fileaccesscontrol/)
+

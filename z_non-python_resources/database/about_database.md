@@ -35,7 +35,7 @@ host    replication     all             127.0.0.1/32            scram-sha-256
 
 and commented out the ipv6 lines because we aren't really taking advantage of that improved technology. More experienced database administrators or developers would probably tell us that the lines commented as local and ipv4 local connections would override the previous more specific host-based lines as PostgreSQL interprets the allowed access in a top-down read through the file. The most secure configuration is probably to comment out those lines resulting in an always deny and explicitly grant access policy.
 
-In order for changes to the pg_hba.conf file to take effect (except for Windows, where the changes appear to be in service immediately, but only for new connections[^1]: https://www.postgresql.org/docs/current/auth-pg-hba-conf.html), one must either reload the configuration or restart the server.
+In order for changes to the pg_hba.conf file to take effect (except for Windows, where the changes appear to be in service immediately, but only for new connections[^2], one must either reload the configuration or restart the server.
 
 As a warning, our pg_hba.conf changes may not work the first time you try them. More expert personnel on DBA Stack Exchange have also warned about the reload process failing to make the changes effective, but we have not experienced this problem. In order to avoid getting too upset, just ensure that you back up the previous working version. Better yet, copy the first backup file to pg_hba.conf.dist. If you're really concerned, you can include a date and a number or time for all changes occurring on that date, like the following:
 
@@ -73,6 +73,8 @@ or in psql as the following:
 
 Once you feel comfortable with access, we included a couple of ways to load the human resources data. After creating the database, we used the two *.txt files in `z_non-python_resources/database/hr_sample_files`, and as somebody inexperienced with psql, just copied the statements from the text files into a gui database client like Postico and executed them in parts so that we could perform some intermediate verification to ensure everything was going as expected. One text file has the object creation commands, and the other file has the data insertion commands.
 
+Note in the text file containing the create table statements, some tables contain foreign keys referencing previously created tables, so follow the top-down order in the file or statements may fail. Both text files appear executable one at a time, although neither file contains robust checks such that one can reasonably guarantee they will execute cleanly in all scenarios. We apologize if this is obvious, but execute the contents of the non-data file first, then the data file. The directory listing is not in order of execution.
+
 ### Using a Database Export File
 
 The two files in `z_non-python_resources/database/hr_sample_export` are PostgreSQL pg_dump or export examples that should allow one to import the entire database we created instead of using the two *.txt files described in the previous paragraph. The hr_sample_dump_w_create_wo_acls.sql.gz file seems like the better alternative, although neither was tested since we had a functional database. The file containing the create and wo_acls text should create the database, then import or load the tables and data independent of the user who set up the original database.
@@ -81,19 +83,15 @@ To import the database, (g)unzip the file, then run the pg_restore with somethin
 
 `/<installation_directory>/bin/pg_restore -U <user_id> -h <server> -p <port> hr_sample_dump_w_create_wo_acls.sql`
 
-For our installation, we haven't run the command, but should resemble something like the following:
+For our installation, we haven't run the command, but it should resemble something like the following:
 
 `/Applications/Postgres.app/Contents/Versions/latest/bin/pg_restore -U rrdoue -h localhost -p 5432 hr_sample_dump_w_create_wo_acls.sql`
 
-Internet searches should provide numerous helpful suggestions about every topic in this file. Experiencing the most problems in this section with configuring access, I found the following helpful:
-
-PostgreSQL Official pg_hba.conf Documentation:
-https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
-
-*PostgreSQL 17 Authentication: How `pg_hba.conf` Controls Access Like a Firewall*, Jeyaram Ayyalusamy, on Medium
-[https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98](https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98)
+Internet searches should provide numerous helpful suggestions about every topic in this file. Experiencing the most problems in this section with configuring access, I found the footnote references helpful.
 
 
-#### Footnotes:
+#### Footnotes
 
 [^1]: Ayyalusamy, Jeyaram. (08 June 2025). *PostgreSQL 17 Authentication: How `pg_hba.conf` Controls Access Like a Firewall*. Retrieved 29 January 2026, from [https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98](https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98)
+
+[^2]: The PostgreSQL Global Development Group. (13 November 2025). *Official PostgreSQL 18 Documentation*. Retrieved 29 January 2025, from [https://www.postgresql.org/docs/current/auth-pg-hba-conf.html](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)
