@@ -71,6 +71,8 @@ or in psql as the following:
 
 ### Using Text Files
 
+Once you feel comfortable with access, we included a couple of ways to load the human resources data. After creating the database, we used the two *.txt files in `z_non-python_resources/database/hr_sample_files`, and as somebody inexperienced with psql, just copied the statements from the text files into a gui database client like Postico and executed them in parts so that we could perform some intermediate verification to ensure everything was going as expected. One text file has the object creation commands, and the other file has the data insertion commands.
+
 Note in the text file containing the create table statements, some tables contain foreign keys referencing previously created tables, so follow the top-down order in the file or statements may fail. Both text files appear executable one at a time, although neither file contains robust checks such that one can reasonably guarantee they will execute cleanly in all scenarios. We apologize if this is obvious, but execute the contents of the non-data file first, then the data file. The directory listing is not in order of execution.
 
 ### Using a Database Export File
@@ -81,24 +83,6 @@ To import the database, (g)unzip the file, then run the pg_restore with somethin
 
 `/<installation_directory>/bin/pg_restore -U <user_id> -h <server> -p <port> hr_sample_dump_w_create_wo_acls.sql`
 
-<<<<<<< HEAD
-For our installation, we haven't run the command, but should resemble something like the following:
-
-`/Applications/Postgres.app/Contents/Versions/latest/bin/pg_restore -U rrdoue -h localhost -p 5432 hr_sample_dump_w_create_wo_acls.sql`
-
-Internet searches should provide numerous helpful suggestions about every topic in this file. Experiencing the most problems in this section with configuring access, I found the following helpful:
-
-PostgreSQL Official pg_hba.conf Documentation:
-https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
-
-*PostgreSQL 17 Authentication: How `pg_hba.conf` Controls Access Like a Firewall*, Jeyaram Ayyalusamy, on Medium
-[https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98](https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98)
-
-
-#### Footnotes:
-
-[^1]: Ayyalusamy, Jeyaram. (08 June 2025). *PostgreSQL 17 Authentication: How `pg_hba.conf` Controls Access Like a Firewall*. Retrieved 29 January 2026, from [https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98](https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98)
-=======
 For our installation, we haven't run the command, but it should resemble something like the following:
 
 `/Applications/Postgres.app/Contents/Versions/latest/bin/pg_restore -U rrdoue -h localhost -p 5432 hr_sample_dump_w_create_wo_acls.sql`
@@ -111,4 +95,3 @@ Internet searches should provide numerous helpful suggestions about every topic 
 [^1]: Ayyalusamy, Jeyaram. (08 June 2025). *PostgreSQL 17 Authentication: How `pg_hba.conf` Controls Access Like a Firewall*. Retrieved 29 January 2026, from [https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98](https://medium.com/@jramcloud1/postgresql-17-authentication-how-pg-hba-conf-controls-access-like-a-firewall-cd9a25272a98)
 
 [^2]: The PostgreSQL Global Development Group. (13 November 2025). *Official PostgreSQL 18 Documentation*. Retrieved 29 January 2025, from [https://www.postgresql.org/docs/current/auth-pg-hba-conf.html](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)
->>>>>>> docs/10/multiple-readme-documentation-updates
