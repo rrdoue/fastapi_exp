@@ -35,7 +35,7 @@ host    replication     all             127.0.0.1/32            scram-sha-256
 
 and commented out the ipv6 lines because we aren't really taking advantage of that improved technology. More experienced database administrators or developers would probably tell us that the lines commented as local and ipv4 local connections would override the previous more specific host-based lines as PostgreSQL interprets the allowed access in a top-down read through the file. The most secure configuration is probably to comment out those lines resulting in an always deny and explicitly grant access policy.
 
-In order for changes to the pg_hba.conf file to take effect (except for Windows, where the changes appear to be in service immediately, but only for new connections[^2], one must either reload the configuration or restart the server.
+In order for changes to the pg_hba.conf file to take effect, except for Windows, where the changes appear to be in service immediately (but only for new connections)[^2], one must either reload the configuration or restart the server.
 
 As a warning, our pg_hba.conf changes may not work the first time you try them. More expert personnel on DBA Stack Exchange have also warned about the reload process failing to make the changes effective, but we have not experienced this problem. In order to avoid getting too upset, just ensure that you back up the previous working version. Better yet, copy the first backup file to pg_hba.conf.dist. If you're really concerned, you can include a date and a number or time for all changes occurring on that date, like the following:
 
@@ -47,7 +47,7 @@ pg_hba.conf.20260112_1941
 
 Find a process that works for you and follow it.
 
-Reloading the configuration using the PostgreSQL utility called pg_ctl does not vary with operating system, but there are alternatives that may work better for you. For example, modern linux versions using systemd appear to offer alternatives using that. I tend to execute the reload from a terminal command line, but not everyone is comfortable with the terminal. As an example, the full reload command takes the form of the following:
+Reloading the configuration using the PostgreSQL utility called pg_ctl does not vary with operating system, but there are alternatives that may work better for you. For example, modern linux versions using systemd appear to offer alternatives using that. Running MacOS, I tend to execute the reload from a terminal command line, but not everyone is comfortable with the terminal. As an example, the full reload command takes the form of the following:
 
 `/<installation_directory>/bin/pg_ctl -D <data_directory> reload`
 
@@ -63,7 +63,7 @@ There is a view that shows access based on the pg_hba.conf file, called pg_hba_f
 
 `table pg_hba_file_rules`
 
-or in psql as the following:
+or at the psql command line as the follows:
 
 `table pg_hba_file_rules;`
 
@@ -71,15 +71,15 @@ or in psql as the following:
 
 ### Using Text Files
 
-Once you feel comfortable with access, we included a couple of ways to load the human resources data. After creating the database, we used the two *.txt files in `z_non-python_resources/database/hr_sample_files`, and as somebody inexperienced with psql, just copied the statements from the text files into a gui database client like Postico and executed them in parts so that we could perform some intermediate verification to ensure everything was going as expected. One text file has the object creation commands, and the other file has the data insertion commands.
+Once you feel comfortable with access, we included a couple of ways to load the human resources data. After creating the database, we used the two text files in `z_non-python_resources/database/hr_sample_files`, and as somebody inexperienced with psql, just copied the statements from the text files into a gui database client like Postico and executed them in parts so that we could perform some intermediate verification to ensure everything was going as expected. [One text file](.z_non-python_resources/database/hr_sample_files/postgresql_hr_database_sample.txt) has the create table statements, and the [other file](.z_non-python_resources/database/hr_sample_files/postgresql_hr_database_sample_data.txt) has the sql data insert statements.
 
-Note in the text file containing the create table statements, some tables contain foreign keys referencing previously created tables, so follow the top-down order in the file or statements may fail. Both text files appear executable one at a time, although neither file contains robust checks such that one can reasonably guarantee they will execute cleanly in all scenarios. We apologize if this is obvious, but execute the contents of the non-data file first, then the data file. The directory listing is not in order of execution.
+Note in the text file containing the create table statements, some tables contain foreign keys referencing previously created tables, so follow the top-down order in the create table file or statements may fail. Both text files may be executable one at a time in something like psql, although neither file contains robust checks such that one can reasonably guarantee they will execute cleanly in all scenarios. The directory listing is in order of execution. That is, execute the statements in the first listed file, then execute the contents of the last listed file.
 
-### Using a Database Export File
+### Using a Database Export File (Not Tested)
 
-The two files in `z_non-python_resources/database/hr_sample_export` are PostgreSQL pg_dump or export examples that should allow one to import the entire database we created instead of using the two *.txt files described in the previous paragraph. The hr_sample_dump_w_create_wo_acls.sql.gz file seems like the better alternative, although neither was tested since we had a functional database. The file containing the create and wo_acls text should create the database, then import or load the tables and data independent of the user who set up the original database.
+The two files in [hr_sample_export](./z_non-python_resources/database/hr_sample_export) are PostgreSQL pg_dump export examples that should allow one to import the entire database we created instead of using the two text files described in the previous paragraph. The hr_sample_dump_w_create_wo_acls.sql.gz file seems like the better alternative, although neither was tested since we had a functional database. That file should create the database, then import or load the tables and data independently of the user who set up the original database.
 
-To import the database, (g)unzip the file, then run the pg_restore with something like the following:
+To import the database, (g)unzip the file, then run pg_restore with something like the following:
 
 `/<installation_directory>/bin/pg_restore -U <user_id> -h <server> -p <port> hr_sample_dump_w_create_wo_acls.sql`
 
@@ -87,7 +87,15 @@ For our installation, we haven't run the command, but it should resemble somethi
 
 `/Applications/Postgres.app/Contents/Versions/latest/bin/pg_restore -U rrdoue -h localhost -p 5432 hr_sample_dump_w_create_wo_acls.sql`
 
+## End
+
+Hopefully this was useful for those of us who don't work with database servers and their content often. If one completes the database section, all that is left is testing the connectivity with FastAPI as found in the [primary readme](../../../../README.md#usage). webMethods integration server and client [setup](../../client/about_webmethods.md) is the last section.
+
 Internet searches should provide numerous helpful suggestions about every topic in this file. Experiencing the most problems in this section with configuring access, I found the footnote references helpful.
+
+Back to the (primary) [README](../../README.md)
+
+Forward to the [webMethods readme](../../z_non-python_resources/webmethods/about_webMethods.md)
 
 
 #### Footnotes
