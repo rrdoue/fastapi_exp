@@ -64,25 +64,25 @@ and
 
 are located. For our purposes, the server.log file probably isn't that important, except for the line including `Config File Directory Saved`, indicating a successful integration server startup. Otherwise, one can verify that Integration Server is up by opening a browser for the Administrator application.
 
-From this point, we don't expect to mention Service Designer because we only need the Integration Server component to run the custom webMethods client software. Everything going forward occurs either on a command-line terminal or in the Integration Server Administrator web application. Of course, for Windows users, whatever the former Task Manager is called in current Windows OS versions is typically useful for controlling Integration Server startup and shutdown.
+From this point, we don't expect to mention Service Designer because we only need the Integration Server component to run the custom webMethods client software. Everything going forward occurs either on a command-line terminal or in the Integration Server Administrator web application. Of course, for Windows users, whatever the former Task Manager is called in current Windows OS versions is typically useful for controlling Integration Server startup and shutdown. We haven't been able to confirm that the latest webMethods 11.1 Service Designer installation includes setting up Task Manager services for Integration Server. Earlier versions also included shortcuts using the Windows Start Menu.
 
 For the administrator web application, we haven't found any browser vendor more useful than another, except in running the application on older MacOS OS versions like Sierra. We recall reading some years back that Software AG recommended Google Chrome, but haven't used it recently for webMethods work. Since Service Designer only runs on relatively recent OSs and hardware, browser versions don't seem to matter. A quick general (non-webMethods) web search appears to recommend MS Edge and Google Chrome for Windows, and we've had reasonable success with both MacOS Safari and Mozilla Firefox on MacOS.
 
 ## Setup and Configuration
 
-These instructions are minimal instructions for this project, although may appear overly wordy based on attempting to provide more than sufficient information for new users. 
+These instructions are minimal instructions for this project, although may appear overly wordy based on attempting to provide more detailed information for new users. 
 
 ### Controlling or Managing Integration Server
 
-From past experience, it is better to start the local integration server prior to going much further, especially since this makes the Administrator application available. Windows users can probably use the Task Manager to start the local integration server. Look for services containing the words `integration server` or `microservices runtime` and check its status. MacOS users should open a Terminal or iTerm session and use the control scripts in the integration server bin directory. Windows users may also opt for this, but we have no relevant experience to offer, although the log file steps may prove useful.
+Integration Server hosts the Adminstrator web application, so start Integration Server now. Windows users can probably use the Task Manager to start the local integration server. Look for services containing the words `integration server` or `microservices runtime` and check its status. MacOS or linux users can open a terminal and use the control scripts in the integration server bin directory. Windows users may also opt for this, using the batch (*.bat) files similar to the linux shell (*.sh) files.
 
-For a MacOS environment, to start integration server, from a terminal window,
+For nearly any os, especially a MacOS environment, to start Integration Server from a terminal,
 
 1. cd <service_designer_home>/IntegrationServer/bin
 
 2. sudo <service_designer_home>/IntegrationServer/bin/startup.sh
 
-3. enter your password when prompted
+3. enter your password when prompted or as appropriate
 
 And to stop integration server, 
 
@@ -90,7 +90,7 @@ And to stop integration server,
 
 2. sudo <service_designer_home>/IntegrationServer/bin/shutdown.sh
 
-3. enter your password when prompted
+3. enter your password when prompted or as appropriate
 
 On any of the supported OSs, one can monitor progress using the server log file as follows:
 
@@ -98,7 +98,7 @@ On any of the supported OSs, one can monitor progress using the server log file 
 
 2. tail -f server.log  # tail may not be available on Windows
 
-During startup, in all OSs, look for the log line with the phrase `Config File Directory Saved`.
+During startup, in all OSs, look for the log line with the phrase `Config File Directory Saved`. The typical start time for a newly installed integration server is less than 30 seconds.
 
 ### Using Integration Server Administrator and Configuration Suggestions
 
@@ -106,7 +106,7 @@ Let's get started using the Administrator application with some easy configurati
 
 1. Using a plain or secure http url to see the application, log in using the default user account as follows:
 
-   - https://localhost:5543/
+   - http://localhost:5555/ or https://localhost:5543/
 
    - User: Administrator, password: manage
 
@@ -128,13 +128,13 @@ Let's get started using the Administrator application with some easy configurati
 
    - It is recommended to change the Administrator password as soon as reasonably possible. Previous experience supports using the following overly conservative process:
 
-     1. Change to an account besides the Administrator account. Go back and execute Step 5 if necessary. Recovering an unknown or forgotten Administrator account password is difficult.
+     1. Change to an account besides the Administrator account. Go back and execute Step 5 if necessary. Recovering an unknown or forgotten Administrator account password is difficult, and may not be possible with newer versions.
 
      2. Log in using the new account.
 
      3. Go to Security > User management, and observe that the account you're using is a member of the Administrators group. The account in use is displayed in the upper-righthand corner of the Administrator application.
 
-     4. In the User area of the page, with the Administrator account visible in the `Select User:` field, select `change password`, update the password, and select `Save Password`.
+     4. In the User area of the page, with the Administrator account visible in the `Select User:` field, select `change password`, update the password, and select `Save Password`. Having had to be overly conservative, it might be wise to copy a password into the field if allowed, since there is no confirm password option.
 
 8. Extra Credit
 
@@ -146,27 +146,27 @@ Let's get started using the Administrator application with some easy configurati
 
 Use the Administrator application to import the Gne_HR_Sample package into the integration server.
 
-1. Download the Gne_HR_Sample package from the GitHub repository in zip file format, located at [z_non-python_resources/webMethods](.), the same directory where this about_webMethods.md readme is located. One can save the Gne_HR_Sample.zip file anywhere, but the file must be moved or copied to the following location prior to import:
+1. Download the Gne_HR_Sample package from the GitHub repository in zip file format, located at [z_non-python_resources/webMethods](.), the same directory where this about_webMethods readme is located. One can save the Gne_HR_Sample.zip file anywhere, but the file must be moved or copied to the following location prior to import:
 
    <service_designer_home>/IntegrationServer/replicate/inbound
 
-   On MacOS, this directory location is writeable by the user that installed the Service Designer software.  While most of the ServiceDesigner directory structure is more secure, the inbound directory should be easily accessible.
+   On MacOS, this directory location is writeable by the user that installed the Service Designer software.  While most of the ServiceDesigner directory structure is more secure, the inbound directory should be more easily accessible.
 
-2. Log into the Administrator application and execute the following:
+2. Log into the Administrator application as needed and execute the following:
 
    1. Confirm the Gne_HR_Sample.zip file is in the inbound directory as desired.
 
-   2. Navigate to Packages > Management (the default) and select Install Inbound Releases.
+   2. Navigate to Packages > Management (the default) and select `Install Inbound Releases`.
 
    3. Gne_HR_Sample.zip should be available in the Release file name drop-down value field. The two options selected are acceptable.
 
-   4. Select Install Release to import the package. The application typically responds with a message the package was installed and activated. If the archive option was selected, the response may include notes about an archive action.
+   4. Select `Install Release` to import the package. The application typically responds with a message the package was installed and activated. If the archive option was selected, the response may include notes about an archive action.
 
 ### Setting webMethods Global Variables in Integration Server Administrator
 
-The fastapi_exp webMethods integration uses two global variables on Integration Server to enable easy transfer of integration services, typically in the form of packages, across webMethods environments, avoiding integration code changes. The Integration Server administration application provides this functionality.
+The fastapi_exp webMethods integration uses two global variables on Integration Server to enable easy transfer of integration services, typically in the form of packages, across webMethods environments, avoiding integration code changes. The Integration Server Administrator application provides the ui for this functionality.
 
-For our purposes, this is like configuring a .env file in Python. Create two global variables on the integration server instance at the webMethods Package scope.
+For our purposes, this is like configuring a .env file in Python. We will create two global variables on the integration server instance at the webMethods Package scope.
 
 - FASTAPI_SERVER=<fastapi_server_hostname>
 
@@ -192,13 +192,13 @@ Note: Neither of these are passwords, so leave `Is Password?` unchecked as one f
 
    2. Value: The value for the variable (for example, localhost or rogers-imac). IP addresses should also be acceptable.
 
-6. Select Save Changes.
+6. Select `Save Changes`.
 
 Repeat for the second global variable, ensuring that one uses the correct file path syntax for your operating system. Note that in the next section this same path is added to another location in Integration Server, and that value requires using a forward slash as the directory separator on all OSs, but we did not see that requirement in the documentation for global variable values.
 
 ### Setting Allowed Write Paths and Directories in Integration Server
 
-The fastapi_exp webMethods integration produces a json file that is saved to the system which hosts Integration Server. Perhaps for security purposes, one must allow Integration Server to save a file to a destination by setting a full directory path in a configuration file located on the file system, not using Integration Server Administrator. For our purposes, this is also similar to configuring a .env file in Python, except the file name is called `fileAccessControl.cnf`. Follow the steps below to set the location for the export file:
+The fastapi_exp webMethods integration produces a json file that is saved to the system which hosts Integration Server. Perhaps for security purposes, one must allow Integration Server to save a file to a destination by setting a full directory path in a configuration file located on the file system, not using the Integration Server Administrator ui. For our purposes, this is also similar to configuring a .env file in Python, except the file name is called `fileAccessControl.cnf`. Follow the steps below to set the location for the export file:
 
 1. On the system where Integration Server is running, navigate to the following directory:
 
@@ -216,6 +216,8 @@ The fastapi_exp webMethods integration produces a json file that is saved to the
    allowedReadPaths=  
    allowedDeletePaths=
 
+   - Note this directory is more restricted than the inbound directory used for importing the custom package and probably requires some kind of sudo access.
+
 3. Add or append the full directory path for your export file location to the end of the allowedWritePaths line. Note this value should be similar to  the value of the EXPORT_FILE_PATH global variable. Ensure that one uses the correct file path syntax for your operating system, except in all OSs, use the forward slash character, not a back slash character, in this file. For example, on an old Microsoft Windows system, the line looks like the following:
 
    allowedWritePaths=C:/Program Files/wMServiceDesigner/IntegrationServer/packages/WmPublic/config
@@ -228,9 +230,11 @@ The fastapi_exp webMethods integration produces a json file that is saved to the
 
    2. The integration server should respond with some form of `WmPublic package reloaded.`.
 
+  - Note one can restart Integration Server, rather than reloading the package, as desired.
+
 ## Usage: Testing and Running the Client Integration in Integration Server
 
-If finishing this webMethods section is the last one completed, the entire integration should be ready for demonstration. To manually run the client integration, execute the following in the integration server Administrator application:
+If finishing this webMethods section is the last one completed, the integration should be ready for demonstration. To manually run the client integration, execute the following in the Administrator application:
 
 1. This version of Administrator seems to open in the last location when one is logged out automatically. Navigate to Packages, where it defaults to Management, the list of packages.
 
@@ -283,7 +287,7 @@ In a simple integration, one might schedule this export to run on some interval,
 
 3. Complete the following fields, starting with Service Information:
 
-   - Description: Optional
+   - Description: Optional, but we usually add the service name here to allow for quick copying in case it's needed, thus avoiding having to creatively get the name from the next field.
 
    - folder.subfolder\:service\: Gne_HR_Sample.Services:getHR_SampleEmployees
 
@@ -299,7 +303,7 @@ In a simple integration, one might schedule this export to run on some interval,
 
    - Select `Repeat after completion` for the Repeating field.
 
-   - Set up the Run Mask. Select an Hour and Minute when you will be observing the running application. For example, select the current hour and a Minutes value a few minutes ahead of the current time. This will run the service every day at time.
+   - Set up the Run Mask. Select an Hour and Minute when you will be observing the running application. For example, select the current hour and a Minutes value a few minutes ahead of the current time. This will run the service every day at that time.
 
      - Remembering the footnote at the bottom, never leave the Minutes column blank, which means run every minute of the hour(s) selected in the Hour column. And from past experience, yes, this brings down production integration server clusters in enterprise environments.
 
@@ -309,11 +313,36 @@ In a simple integration, one might schedule this export to run on some interval,
 
 6. When the run time arrives, check the directory where you asked Integration Server to save the file. There should be a file available with a time consistent with the time you requested in the scheduled task, except that the file has a local server time converted to GMT, or Universal Time Coordinated (UTC).
 
-## End 
+7. When you are finished testing, suspend the scheduled task using the
+following:
+
+   1. In Server > Scheduling, look for the scheduled task.
+
+   2. Navigate to the far right-hand side of the page and find the Status column.
+
+   3. Select the url-like highlighted `Active` image.
+
+   4. Acknowledge the suspend task dialog box by selecting `OK`.
+
+   5. The ui will reflect the change with something like `Suspended Task ID: a690a0d0-02ad-11f1-9b72-000000000000` and show the task with Status `Suspended`.
+
+#### Workaround for Potential Scheduling Run-Time Error
+
+This problem will probably not occur during your testing, but an unexpected error occurred on our integration server when running the client integration as a scheduled task after the process had been set up for a few weeks, but set in the `Suspended` Status. The error appears related to using global variables, with wording as follows:
+
+**Found unresolved dependent services\: globalVar_package\:FASTAPI_SERVER,globalVar_package\:EXPORT_FILE_PATH**
+
+This error prevents the Status from changing from Suspended to Active on the scheduler page. If you would like to resolve this problem and retry the scheduled task, refer to this [workaround](./about_globalvar_error.md). Resolving the error using the suggested fix does not appear to affect functionality or operation. The service runs as expected in Service Designer and in the Administrator ui. The problem only occurs when executing the service as a scheduled task.
+
+## End
 
 If you've gotten this far, congratulations on staying with the project! There's more in this project than I expected, or documentation is just more time-consuming.
 
-We should probably add some footnotes to this document, but for now just include references. We're also including the Service Designer reference documentation, but most of the information in this document is found in the Administrator documentation. There is also a helpful article on managing allowed access paths.
+We should probably add some footnotes to this document, but for now just include references. Most of the information in this document is found in the Administrator documentation, but we're also including the Service Designer reference documentation if anyone is interested. There is also a helpful article below on managing file allowed write access paths.
+
+Back to the (primary) [README](../../README.md)
+
+Back to the [database readme](../../z_non-python_resources/database/about_database.md)
 
 
 #### References
