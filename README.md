@@ -14,7 +14,7 @@ In a simpler implementation, one can omit webMethods, using only the FastAPI cod
 
 - FastAPI server responds to a http get request, returning json-formatted data from a human resources employees table hosted on a PostgreSQL server.
 - A webMethods integration server, hosting a custom package, calls FastAPI and saves the json-formatted result to a file. Integration Server includes functionality to run the call as a scheduled task, typical of enterprise environments.
-  * Alternatively, one can use the provided docs application in FastAPI to make the request and display the result. This is a good first step because you can confirm the FastAPI installation and database connectivity works as expected, then include the webMethods functionality as desired.
+  * Alternatively, one can use the provided docs application in FastAPI to make the request and display the result. This is a good first step because you can confirm the FastAPI installation and database connectivity work as expected, then include the webMethods functionality as desired.
 
 ## Python Dependencies
 
@@ -131,7 +131,7 @@ Import the hr_sample database into your PostgreSQL server using one of the proje
 
 ### webMethods
 
-One needs a webMethods integration server to execute the client integration package. Installing and configuring Integration Server is not necessarily more difficult than working with PostgreSQL, but since it is a proprietary application, public domain help is more limited. See [about_webMethods](./z_non-python_resources/webMethods/about_webMethods.md) for suggestions about installing and  configuring Integration Server and hosting the custom webMethods package.
+One needs a webMethods integration server to execute the client integration package. Installing and configuring Integration Server is not necessarily more difficult than working with PostgreSQL, but since it is a proprietary application, public domain help is more limited. See [about_webMethods](./z_non-python_resources/webmethods/about_webMethods.md) for suggestions about installing and  configuring Integration Server and hosting the custom webMethods package.
 
 An example export file created using Integration Server with an explanatory [about_export](./z_non-python_resources/export/about_export.md) file is located in the [export](./z_non-python_resources/export) directory.
 
@@ -190,7 +190,7 @@ http://localhost:8000/docs
 
 At a minimum, one can test the FastAPI installation by executing the Hello World example at the document root. The Hello World example and the FastAPI portion of the client integration are both available in the docs application as get requests. The fastapi_exp database call, or get request, is called `Read Employees` and the Hello World example is called `Read Root`. Remember for the database call, one has to have a working PostgreSQL server with the hr_sample database and employees table available.
 
-Instructions for running the client integration in webMethods are located in the webMethods readme [Usage](./z_non-python_resources/webMethods/about_webMethods.md#usage-testing-and-running-the-client-integration-in-integration-server) section. We realize that some people may be interested only in the FastAPI example, or the FastAPI-PostgreSQL combination. After installing and configuring the webMethods integration server and importing the Gne_HR_Sample.zip [package](./z_non-python_resources/webMethods) included in the webMethods directory of the project repository, one can execute the webMethods service that calls FastAPI and creates an export file.
+Instructions for running the client integration in webMethods are located in the webMethods readme [Usage](./z_non-python_resources/webmethods/about_webMethods.md#usage-testing-and-running-the-client-integration-in-integration-server) section. We realize that some people may be interested only in the FastAPI example, or the FastAPI-PostgreSQL combination. After installing and configuring the webMethods integration server and importing the Gne_HR_Sample.zip [package](./z_non-python_resources/webmethods) included in the webMethods directory of the project repository, one can execute the webMethods service that calls FastAPI and creates an export file.
 
 ## Project Structure
 

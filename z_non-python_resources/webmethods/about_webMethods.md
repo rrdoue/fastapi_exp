@@ -1,24 +1,24 @@
 # More about webMethods Integration Server
 
-We're guessing that one has saved this activity for the end, concentrating on FastAPI and PostgreSQL setup and configuration. webMethods is probably in a limited market, where the MuleSoft Integration Platform is the most popular commercial integration offering.  Since we happen to have experience with webMethods and they offer a no-cost version of their primary integration software component (Integration Server), this is still a good candidate for demonstrating application integration with FastAPI. A disadvantage is the amount of work required to run the client integration.
+We're guessing that one has saved this activity for the end, concentrating on FastAPI and PostgreSQL setup and configuration. webMethods is probably in a limited market, where the MuleSoft Integration Platform appears to be the most popular commercial integration offering.  Since we happen to have experience with webMethods and they offer a no-cost version of their primary integration software component (Integration Server), this is still a good candidate for demonstrating application integration with FastAPI. A disadvantage is the amount of work required to set up the client integration if one doesn't have Integration Server installed.
 
-We'll lead one through the process of installing, setting up, and running the client integration, demonstrating the project runs successfully. If the vendor's reference documentation appears useful, we may reference those as available. We'll expend more effort on documenting webMethods since information is not as publicly available or perhaps as widely used as FastAPI and PostgreSQL. As we mentioned in other parts of the documentation, developers probably don't need this section and anyone more experienced with Python likely has much more experience with FastAPI than demonstrated in this project.
+We'll lead one through the process of installing, setting up, and running the client integration, demonstrating the project runs successfully. The vendor's reference documentation is available at the references at the end of this document. We'll expend more effort on documenting webMethods since information is not as publicly available or perhaps as widely used as FastAPI and PostgreSQL. As we mentioned in other parts of the documentation, developers probably don't need this section and anyone more experienced with Python likely has much more experience with other client options.
 
-We apologize, this is not a one-command or installer-only process, but more of a step-by-step process involving running a relatively straightforward IBM webMethods installer, configuring webMethods Integration Server, and adding the webMethods fastapi_exp package to Integration Server, not necessarily in that order. The installation process includes IBM webMethods Service Designer, but it is not required for this project. We've already developed the webMethods integration using Service Designer. All that is needed is to get Integration Server running to the point where it will host the client FastAPI client integration. 
+We apologize, this is not a one-command or installer-only process, but more of a step-by-step process involving running a relatively straightforward IBM webMethods installer, configuring webMethods Integration Server, and adding the webMethods fastapi_exp package to Integration Server, not necessarily in that order. The installation process includes IBM webMethods Service Designer, but it is not required for this project. We've already developed the webMethods integration using Service Designer. All that is needed is to get Integration Server running to the point where it will host the FastAPI client integration. 
 
-In order to use the Integration Server software, the no-cost option is to download Service Designer. This download includes Integration Server, referred to in the download as the webMethods Microservices Runtime. Having worked in an on-premise enterprise integration environment using the older name Integration Server, I'll continue using that name, although anything using the word microservice is probably flashier terminology.
+In order to use the Integration Server software, download the publicly available no-cost Service Designer. This download includes Integration Server, referred to in the download as the webMethods Microservices Runtime. Having worked in an on-premise enterprise integration environment using the older name Integration Server, I'll continue using that name, although anything using the word microservice probably reflects more popular terminology.
 
 ## Accessing and Downloading webMethods Integration Server
 
-It is important to note early on that we are not advocating misuse of this software in a commercial setting. Software AG, the prior owner of webMethods, made the software more publicly available for improving one's knowledge and understanding of webMethods Service Designer and its relation to their cloud-hosted offering, which appears similar in functionality to the locally hosted integration server form. We appreciate the ability to experiment with the software in a cooperative manner and demonstrate some of the concepts integrating with a FastAPI server. 
+Software AG, the prior owner of webMethods, appears to have made the software publicly available for improving one's knowledge and understanding of webMethods Service Designer and its relation to their cloud-hosted offering, which may include functionality similar to the locally hosted integration server form. We appreciate the ability to experiment with the software and demonstrate some of the concepts integrating with a FastAPI server. 
 
-This publicly, non-commercially available form of the Integration Server software, called the webMethods Microservices Runtime in their online documentation, is part of the IBM webMethods Service Designer IDE download, with a late-2025 release currently available as of early 2026 by going to the following page:
+IBM purchased the webMethods product line from Software AG in 2025. There is a late-2025 release currently available as of early 2026 by going to the following page:
 
 [IBM webMethods Service Designer Download](https://community.ibm.com/community/user/viewdocument/ibm-webmethods-service-designer-ava?CommunityKey=82b75916-ed06-4a13-8eb6-0190da9f1bfa&tab=librarydocuments)
 
-One needs an IBM TechXchange account to download the software, found on the above page by following the link "register up front for an IBM id". Once logged in with an active account, select the "Download IBM webMethods Service Designer" link to reach the page hosting the Service Designer archives (compressed installation files). The archives include an Azul Java OpenJDK option. This is a good option if one doesn't have a Java SDK of some kind on your system.
+One needs an IBM TechXchange account to download the software, found on the above page by following the link "register up front for an IBM id". Once logged in with an active account, select the "Download IBM webMethods Service Designer" link to reach the page hosting the Service Designer archives (compressed installation files). The archives include an Azul Java OpenJDK option, which is a good choice if one doesn't have a known compatible Java SDK on your system.
 
-The archives are typically updated once or twice a year. IBM recently purchased the webMethods product line from Software AG and their practices may vary from previous experience. For the following available download version as of January 2026 mentioned above,
+The archives are typically updated once or twice a year, although since IBM recently acquired the webMethods product line from Software AG, their practices may vary from previous experience. For the following available download version as of January 2026 mentioned above,
 
 webMethods Service Designer for Mac OS X, UNIX, Windows
 English
@@ -30,15 +30,15 @@ Administration > Licensing > Licensing details
 
 `ExpirationDate 	Unlimited`
 
-suggesting there is no expiration date. In the event that the product license included in your download expires, one can typically download the version again, or if a newer version is available, download the updated version and reinstall the software. Once again, we are only using this software for experimental and learning purposes.
+suggesting there is no expiration date. In the event that the product license included in your download expires, one can typically download the version again, or if a newer version is available, download the updated version and reinstall the software. Once again, we are only using this software for learning purposes.
 
 ## Service Designer and Integration Server Installation
 
-Installation is usually straightforward, similar to other applications, with a similar look and feel for the respective operating system. Downloading the software leads to further information about installing and running Service Designer and Integration Server. The integration server is part of the Service Designer directory structure. This was not historically true for the commercially licensed integration server software, where the two were rarely installed on the same system in an enterprise IT environment. Our previous experience involved multiple integration servers running on multiple systems in an on-premise or hosted data center with other webMethods applications including broker, universal messaging, and clustering among others.
+Installation is usually straightforward, similar to other applications, with a similar look and feel for the respective operating system. Downloading the software leads to further information about installing and running Service Designer and Integration Server. The integration server is part of the Service Designer directory structure. This was not historically true for previous versions of the commercially licensed integration server software, where the two were rarely installed on the same system in an enterprise IT environment. Our previous experience involved integration servers running on multiple systems in an on-premise or hosted data center with other webMethods applications including broker, universal messaging, and clustering among others.
 
-It is important to emphasize one should be a member of whatever Administrators group is used on your system. Linux users are probably much more familiar with the requirements for that OS than we are. In the event of installation problems, the vendor appears helpful in answering problems with installation on the IBM TechXchange community help forum. We haven't experienced any problems running the MacOS version.
+It is important to emphasize one should be a member of whatever Administrators group is used on your system. Linux users are probably much more familiar with the requirements for their OS than we are. In the event of installation problems, the vendor appears helpful in answering questions about installation on the IBM TechXchange community help forum. We haven't experienced any installation problems running the MacOS version.
 
-We're using the Service Designer directory notation for this project, not an enterprise directory structure, since they typically vary because the enterprise installation offers many options, whereas on MacOS, for example, there was not even an option to change the directory location or structure. We will use the name 
+We're using the Service Designer directory notation for this project, not an enterprise directory structure, where on MacOS, for example, there was not even an option to change the directory location or structure. We will use the name 
 
 <service_designer_home>
 
@@ -48,7 +48,7 @@ as the base location where the installer adds the software, remembering that Int
 
 which typically included multiple applications mentioned in an earlier paragraph.
 
-This readme goes through how to install and configure Integration Server for this project specifically for this integration. The code base has been developed and is available in GitHub in the form of a webMethods package zip file called Gne_HR_Sample.zip. We cover installing on or deploying the package to Integration Server when the environment is ready for those steps. We will also cover managing Integration Server without going through Service Designer. It appears that the vendor's instructions are oriented more toward a developer using the IDE and managing the Integration Server host there. It might be worthwhile understanding that Integration Server, a form of a Java application server, hosts the software developed using the IDE. In fact, a running Integration Server is required for webMethods flow service development using Service Designer.
+This readme goes through how to install and configure Integration Server for this integration. The code base has been developed and is available in GitHub in the form of a webMethods package zip file called Gne_HR_Sample.zip. We cover installing or deploying the package to Integration Server when the environment is ready for those steps. We will also cover managing Integration Server without going through Service Designer. It appears that the vendor's instructions are oriented more toward a developer using the IDE and managing the Integration Server host there. Integration Server, a form of a Java application server, hosts the software developed using the IDE. In fact, a running Integration Server is required for webMethods flow service development using Service Designer.
 
 Once installed, Integration Server is located within the Service Designer installation directory at the following:
 
@@ -62,11 +62,11 @@ and
 
 <service_designer_home>/IntegrationServer/logs
 
-are located. For our purposes, the server.log file probably isn't that important, except for the line including `Config File Directory Saved`, indicating a successful integration server startup. Otherwise, one can verify that Integration Server is up by opening a browser for the Administrator application.
+are located. For our purposes, the server.log file probably isn't that important, except for the line including `Config File Directory Saved`, indicating a successful integration server startup. Otherwise, one can verify that Integration Server is up by opening a browser to access the Administrator application.
 
-From this point, we don't expect to mention Service Designer because we only need the Integration Server component to run the custom webMethods client software. Everything going forward occurs either on a command-line terminal or in the Integration Server Administrator web application. Of course, for Windows users, whatever the former Task Manager is called in current Windows OS versions is typically useful for controlling Integration Server startup and shutdown. We haven't been able to confirm that the latest webMethods 11.1 Service Designer installation includes setting up Task Manager services for Integration Server. Earlier versions also included shortcuts using the Windows Start Menu.
+From this point, we don't expect to mention Service Designer because we only need the Integration Server component to run the custom webMethods client software. Everything going forward occurs either on a command-line terminal or in the Integration Server Administrator web application. For Windows users, the installer does not set up services for controlling Integration Server startup and shutdown in whatever the former Task Manager is called in current Windows OS versions. The vendor intended a developer to manage Integration Server in Service Designer. However, on MacOS the process did not go smoothly and we just reverted to using the control scripts in the integration server bin directory.
 
-For the administrator web application, we haven't found any browser vendor more useful than another, except in running the application on older MacOS OS versions like Sierra. We recall reading some years back that Software AG recommended Google Chrome, but haven't used it recently for webMethods work. Since Service Designer only runs on relatively recent OSs and hardware, browser versions don't seem to matter. A quick general (non-webMethods) web search appears to recommend MS Edge and Google Chrome for Windows, and we've had reasonable success with both MacOS Safari and Mozilla Firefox on MacOS.
+For the administrator web application, we haven't found any browser vendor more useful than another, except in running the application on older MacOS OS versions like Sierra. We recall reading in version  10.n documentation that Software AG recommended Google Chrome, but haven't used it recently for webMethods work. Since Service Designer only runs on relatively recent OSs and hardware, browser versions don't seem to matter. A quick general (non-webMethods) web search appears to recommend MS Edge and Google Chrome for Windows, and we've had reasonable success with both MacOS Safari and Mozilla Firefox on MacOS.
 
 ## Setup and Configuration
 
@@ -74,9 +74,9 @@ These instructions are minimal instructions for this project, although may appea
 
 ### Controlling or Managing Integration Server
 
-Integration Server hosts the Adminstrator web application, so start Integration Server now. Windows users can probably use the Task Manager to start the local integration server. Look for services containing the words `integration server` or `microservices runtime` and check its status. MacOS or linux users can open a terminal and use the control scripts in the integration server bin directory. Windows users may also opt for this, using the batch (*.bat) files similar to the linux shell (*.sh) files.
+Integration Server hosts the Adminstrator web application, so start Integration Server after one installs the software. Open a terminal or dos / PowerShell prompt and use the control scripts in the integration server bin directory. The vendor provides batch (*.bat) files for Windows and shell (*.sh) files for Linux and MacOS.
 
-For nearly any os, especially a MacOS environment, to start Integration Server from a terminal,
+For nearly any os, to start Integration Server from a terminal,
 
 1. cd <service_designer_home>/IntegrationServer/bin
 
@@ -146,21 +146,21 @@ Let's get started using the Administrator application with some easy configurati
 
 Use the Administrator application to import the Gne_HR_Sample package into the integration server.
 
-1. Download the Gne_HR_Sample package from the GitHub repository in zip file format, located at [z_non-python_resources/webMethods](.), the same directory where this about_webMethods readme is located. One can save the Gne_HR_Sample.zip file anywhere, but the file must be moved or copied to the following location prior to import:
+1. Download the Gne_HR_Sample package from the GitHub repository in zip file format, located at [z_non-python_resources/webMethods](.), the same directory where this about_webMethods readme is located. Save the Gne_HR_Sample.zip file anywhere, but the file must be moved or copied to the following location prior to import:
 
    <service_designer_home>/IntegrationServer/replicate/inbound
 
-   On MacOS, this directory location is writeable by the user that installed the Service Designer software.  While most of the ServiceDesigner directory structure is more secure, the inbound directory should be more easily accessible.
+   On MacOS, this directory location is writeable by the user that installed the Service Designer software.  While most of the ServiceDesigner directory structure is more secure, the inbound directory is usually easily accessible.
 
 2. Log into the Administrator application as needed and execute the following:
 
-   1. Confirm the Gne_HR_Sample.zip file is in the inbound directory as desired.
+   1. Confirm the Gne_HR_Sample.zip file is in the inbound director.
 
    2. Navigate to Packages > Management (the default) and select `Install Inbound Releases`.
 
    3. Gne_HR_Sample.zip should be available in the Release file name drop-down value field. The two options selected are acceptable.
 
-   4. Select `Install Release` to import the package. The application typically responds with a message the package was installed and activated. If the archive option was selected, the response may include notes about an archive action.
+   4. Select `Install Release` to import the package. The application typically responds with a message that the package was installed and activated. If the archive option was selected, the response may include notes about an archive action.
 
 ### Setting webMethods Global Variables in Integration Server Administrator
 
@@ -194,11 +194,11 @@ Note: Neither of these are passwords, so leave `Is Password?` unchecked as one f
 
 6. Select `Save Changes`.
 
-Repeat for the second global variable, ensuring that one uses the correct file path syntax for your operating system. Note that in the next section this same path is added to another location in Integration Server, and that value requires using a forward slash as the directory separator on all OSs, but we did not see that requirement in the documentation for global variable values.
+Repeat for the second global variable, EXPORT_FILE_PATH, ensuring that one uses the correct file path syntax for your operating system. Note that in the next section this same path is added to another location in Integration Server, and that value requires using a forward slash as the directory separator on all OSs, but we did not see that requirement in the documentation for global variable values.
 
 ### Setting Allowed Write Paths and Directories in Integration Server
 
-The fastapi_exp webMethods integration produces a json file that is saved to the system which hosts Integration Server. Perhaps for security purposes, one must allow Integration Server to save a file to a destination by setting a full directory path in a configuration file located on the file system, not using the Integration Server Administrator ui. For our purposes, this is also similar to configuring a .env file in Python, except the file name is called `fileAccessControl.cnf`. Follow the steps below to set the location for the export file:
+The fastapi_exp webMethods integration produces a json file that is saved to the system which hosts Integration Server. Perhaps for security purposes, one must allow Integration Server to save a file to a destination by setting a full directory path in a configuration file located on the file system, not using the Integration Server Administrator ui. For our purposes, this is also similar to configuring a .env file in Python, where the file name is called `fileAccessControl.cnf`. Follow the steps below to set the location for the export file:
 
 1. On the system where Integration Server is running, navigate to the following directory:
 
@@ -218,15 +218,15 @@ The fastapi_exp webMethods integration produces a json file that is saved to the
 
    - Note this directory is more restricted than the inbound directory used for importing the custom package and probably requires some kind of sudo access.
 
-3. Add or append the full directory path for your export file location to the end of the allowedWritePaths line. Note this value should be similar to  the value of the EXPORT_FILE_PATH global variable. Ensure that one uses the correct file path syntax for your operating system, except in all OSs, use the forward slash character, not a back slash character, in this file. For example, on an old Microsoft Windows system, the line looks like the following:
+3. Add or append the full directory path for your export file location to the end of the allowedWritePaths line. Note this value should be similar to  the value of the EXPORT_FILE_PATH global variable. Ensure that one uses the correct file path syntax for your operating system, except in all OSs, use the forward slash character, not a back slash character, in this file. For example, on a Microsoft Windows system, the line might look like the following:
 
-   allowedWritePaths=C:/Program Files/wMServiceDesigner/IntegrationServer/packages/WmPublic/config
+   allowedWritePaths=C:/Users/rrdoue/files/fastapi_exp/client/export
 
-   Note if for some reason you have multiple paths on the allowedWritePaths line, separate each one with a semicolon. We have also seen commentary suggesting that a semicolon is required at the end of a single entry, but we have not verified this through IBM webMethods documentation, nor experienced problems in many years of webMethods administration.
+   Note if for some reason you have multiple paths (values) on the allowedWritePaths line, separate each one with a semicolon. We have also seen commentary suggesting that a semicolon is required at the end of a single entry, but we have not verified this through IBM webMethods documentation, nor experienced problems in many years of webMethods administration.
 
 4. Reload the WmPublic package for the file change to take effect as follows:
 
-   1. In Integration Server Administrator, navigate to Packages, where one will see a list of the packages on the integration server. Locate WmPublic package and the Reload column, and select the Reload icon to reload the package.
+   1. In Integration Server Administrator, navigate to Packages, where one will see a list of the packages on the integration server. Locate the WmPublic package and the Reload column, and select the Reload icon to reload the package.
 
    2. The integration server should respond with some form of `WmPublic package reloaded.`.
 
@@ -267,9 +267,9 @@ For example, we produced this error by failing to start the FastAPI server.
 
 `message 	Caught Exception::java.net.ConnectException: Connection refused`, indicating that the integration server can't find or reach the FastAPI server.
 
-We produced this error by leaving the PostgreSQL server in a shut down state.
+We produced this error by leaving the PostgreSQL server in a down state.
 
-`message 	Caught Exception::com.wm.net.NetException: [ISC.0064.9324] Server Error: 503 Service Unavailable`, probably indicating that the database server is unavailable or there is another error related to the FastAPI server accessing the data source. In our integration group, we prefer having more detail on the http 503 error, but most seasoned developers recommend not revealing too much to the client. For this error, the FastAPI server log should display the following: 
+`message 	Caught Exception::com.wm.net.NetException: [ISC.0064.9324] Server Error: 503 Service Unavailable`, indicating that the database server is unavailable or there is another error related to the FastAPI server accessing the data source. In our integration group, we prefer having more detail on the http 503 error, but most practices recommend not revealing too much to the client. For this error, the FastAPI server log should display the following: 
 
 ```
 2026-01-25 16:39:28,624 INFO sqlalchemy.engine.Engine [cached since 179.7s ago] {}
@@ -279,7 +279,7 @@ We produced this error by leaving the PostgreSQL server in a shut down state.
 
 ### Extra Credit: Schedule the Service to Run Automatically
 
-In a simple integration, one might schedule this export to run on some interval, perhaps once per day. Integration Server allows for scheduling a service to run on some interval. For example, one can set up a simple scheduled task as follows:
+In a simple integration, one might schedule the export to run on some interval, perhaps once per day. Integration Server allows for scheduling a service to run on some interval. For example, one can set up a simple scheduled task as follows:
 
 1. In the Administrator application, navigate to Server > Scheduling.
 
@@ -309,9 +309,9 @@ In a simple integration, one might schedule this export to run on some interval,
 
 4. Select Save Task to save the complex repeating scheduled task.
 
-5. Now observe the task just created, double checking that a minute has been selected. The Service should be a blue url and Status should be Active.
+5. Now observe the task just created, double checking that a minute has been selected. The values in the Service and Status columns' values should be displayed as a blue url and the Status should show Active.
 
-6. When the run time arrives, check the directory where you asked Integration Server to save the file. There should be a file available with a time consistent with the time you requested in the scheduled task, except that the file has a local server time converted to GMT, or Universal Time Coordinated (UTC).
+6. When the run time arrives, check the directory where you asked Integration Server to save the file. There should be a file available with a time stamp consistent with the time you requested in the scheduled task, except that the file has a local server time converted to Greenwich Mean Time, or Universal Time Coordinated (UTC).
 
 7. When you are finished testing, suspend the scheduled task using the
 following:
@@ -328,17 +328,17 @@ following:
 
 #### Workaround for Potential Scheduling Run-Time Error
 
-This problem will probably not occur during your testing, but an unexpected error occurred on our integration server when running the client integration as a scheduled task after the process had been set up for a few weeks, but set in the `Suspended` Status. The error appears related to using global variables, with wording as follows:
+This problem will probably not occur during your testing, but an unexpected error occurred on our integration server when running the client integration as a scheduled task after the process had been set up for a few weeks, but was in the `Suspended` Status. We received the error when we re-enabled the task. The error appears related to using global variables, with wording as follows:
 
 **Found unresolved dependent services\: globalVar_package\:FASTAPI_SERVER,globalVar_package\:EXPORT_FILE_PATH**
 
-This error prevents the Status from changing from Suspended to Active on the scheduler page. If you would like to resolve this problem and retry the scheduled task, refer to this [workaround](./about_globalvar_error.md). Resolving the error using the suggested fix does not appear to affect functionality or operation. The service runs as expected in Service Designer and in the Administrator ui. The problem only occurs when executing the service as a scheduled task.
+This error prevents the Status from changing from Suspended to Active on the scheduler page. If you would like to resolve this problem and retry the scheduled task, refer to this vendor [workaround](./about_globalvar_error.md). Resolving the error using the suggested fix does not appear to affect functionality or operation. The service runs as expected in Service Designer and in the Administrator ui. The problem only occurs when running the service as a scheduled task.
 
 ## End
 
 If you've gotten this far, congratulations on staying with the project! There's more in this project than I expected, or documentation is just more time-consuming.
 
-We should probably add some footnotes to this document, but for now just include references. Most of the information in this document is found in the Administrator documentation, but we're also including the Service Designer reference documentation if anyone is interested. There is also a helpful article below on managing file allowed write access paths.
+We should probably add some footnotes to this document, but for now just include the references below. Nearly all of the information in this document is found in the integration server documentation and we're including the Service Designer reference documentation in case anyone is interested. There is also a helpful article on managing directory access outside the integration server home directory.
 
 Back to the (primary) [README](../../README.md)
 
@@ -349,7 +349,7 @@ Back to the [database readme](../../z_non-python_resources/database/about_databa
 
 IBM. (05 January 2026). *Administering webMethods Integration Server*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=guide-administering-webmethods-integration-server](https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=guide-administering-webmethods-integration-server)
 
-IBM. (05 January 2026). *Integration Server Administrator's Guide*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=integration-server-administrators-guide]9https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=integration-server-administrators-guide)
+IBM. (05 January 2026). *Integration Server Administrator's Guide*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=integration-server-administrators-guide](https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/11.1.0?topic=integration-server-administrators-guide)
 
 IBM. (11 November 2025). *Using Integration Server Administrator*. Retrieved 31 January 2026, from [https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/10.15.0?topic=guide-using-integration-server-administrator](https://www.ibm.com/docs/en/webmethods-integration/wm-integration-server/10.15.0?topic=guide-using-integration-server-administrator)
 
