@@ -2,11 +2,11 @@
 
 ### Background
 
-In checking the vendor for understanding the problem, unresolved service dependencies occur in webMethods flow service development for various reasons. In our case, the referenced package does not appear to exist unless it is some kind of hidden or temporary package created when using global variables on Integration Server. While the vendor recommends investigating and resolving the problem, the service runs as expected in Service Designer and in the Administrator ui. The problem only occurs when executing the service as a scheduled task.
+In checking the vendor to understand the problem, unresolved service dependencies occur in webMethods flow service development for various reasons. In our case, the referenced package does not appear to exist unless it is some kind of hidden or temporary package created when using global variables on Integration Server. While the vendor recommends investigating and resolving the problem, the service runs as expected in Service Designer and in the Administrator ui. The problem only occurs when executing the service as a scheduled task.
 
 ### Steps to Restore Scheduler for the FastAPI Client Integration
 
-Integration Server has a number of advanced configuration parameters used to manage the integration server configuration. These key-value pairs are stored in the server.cnf file, another .env-like file. These parameters are called Extended Settings, edited through the Administrator application. Do not change extended settings by modifying the file directly. Instead, use the following in the admin ui:
+Integration Server has a number of advanced configuration parameters used to manage the integration server configuration. These key-value pairs are stored in the server.cnf file, another .env-like file. These parameters are called Extended Settings, edited through the Administrator application. For a running integration server, do not change extended settings by modifying the file directly. Instead, use the following in the administrator ui:
 
 1. Navigate to Settings > Extended, which displays the Extended settings page.
 
@@ -25,13 +25,13 @@ Integration Server has a number of advanced configuration parameters used to man
 
    <service_designer_home>/IntegrationServer/config
 
-   and looks like the following:
+   and the key-value pair looks like the following:
 
      watt.server.scheduler.ignoreReferenceValidationErrors=true
 
 7. Restart the integration server for the change to take effect with the following:
 
-   1. As desired, go to the logs directory 
+   1. As desired, in a terminal, go to the logs directory 
 
       $ cd <service_designer_home>/IntegrationServer/logs
 
@@ -53,10 +53,10 @@ Integration Server has a number of advanced configuration parameters used to man
 
    - The scheduled task should run as expected at the designated time.
 
-   - Refer to the [section](./about_webmethods.md###-extra-credit:-schedule-the-service-to-run-automatically) about scheduled tasks in the webMethods readme as required.
+   - Refer to the [section](./about_webMethods.md###-extra-credit:-schedule-the-service-to-run-automatically) about scheduled tasks in the webMethods readme as required.
 
 9. Assuming that the task ran to completion, the scheduled task Last Error column should show `N/A` and Server > Service usage will show the latest run time of the scheduled task. Confirm the file was created as expected in the directory found in Settings > Global variables, EXPORT_FILE_PATH.
 
 Back to the [README](../../README.md)
 
-Back to the [webMethods readme](./about_webmethods.md)
+Back to the [webMethods readme](./about_webMethods.md)

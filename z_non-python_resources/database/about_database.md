@@ -1,4 +1,4 @@
-# Database
+# More about PostgreSQL Database
 
 ## Introduction
 
@@ -71,13 +71,13 @@ or at the psql command line as the follows:
 
 ### Using Text Files
 
-Once you feel comfortable with access, we included a couple of ways to load the human resources data. After creating the database, we used the two text files in `z_non-python_resources/database/hr_sample_files`, and as somebody inexperienced with psql, just copied the statements from the text files into a gui database client like Postico and executed them in parts so that we could perform some intermediate verification to ensure everything was going as expected. [One text file](.z_non-python_resources/database/hr_sample_files/postgresql_hr_database_sample.txt) has the create table statements, and the [other file](.z_non-python_resources/database/hr_sample_files/postgresql_hr_database_sample_data.txt) has the sql data insert statements.
+Once you feel comfortable with access, we included a couple of ways to load the human resources data. After creating the database, we used the two text files in `z_non-python_resources/database/hr_sample_files`, and as somebody inexperienced with psql, just copied the statements from the text files into a gui database client like Postico and executed them in parts so that we could perform some intermediate verification to ensure everything was going as expected. [One text file](./hr_sample_files/postgresql_hr_database_sample.txt) has the create table statements, and the [other file](./database/hr_sample_files/postgresql_hr_database_sample_data.txt) has the sql data insert statements.
 
 Note in the text file containing the create table statements, some tables contain foreign keys referencing previously created tables, so follow the top-down order in the create table file or statements may fail. Both text files may be executable one at a time in something like psql, although neither file contains robust checks such that one can reasonably guarantee they will execute cleanly in all scenarios. The directory listing is in order of execution. That is, execute the statements in the first listed file, then execute the contents of the last listed file.
 
 ### Using a Database Export File (Not Tested)
 
-The two files in [hr_sample_export](./z_non-python_resources/database/hr_sample_export) are PostgreSQL pg_dump export examples that should allow one to import the entire database we created instead of using the two text files described in the previous paragraph. The hr_sample_dump_w_create_wo_acls.sql.gz file seems like the better alternative, although neither was tested since we had a functional database. That file should create the database, then import or load the tables and data independently of the user who set up the original database.
+The two files in [hr_sample_export](./database/hr_sample_export) are PostgreSQL pg_dump export examples that should allow one to import the entire database we created instead of using the two text files described in the previous paragraph. The hr_sample_dump_w_create_wo_acls.sql.gz file seems like the better alternative, although neither was tested since we had a functional database. That file should create the database, then import or load the tables and data independently of the user who set up the original database.
 
 To import the database, (g)unzip the file, then run pg_restore with something like the following:
 
@@ -89,7 +89,7 @@ For our installation, we haven't run the command, but it should resemble somethi
 
 ## End
 
-Hopefully this was useful for those of us who don't work with database servers and their content often. If one completes the database section, all that is left is testing the connectivity with FastAPI as found in the [primary readme](../../../../README.md#usage). webMethods integration server and client [setup](../../client/about_webmethods.md) is the last section.
+Hopefully this was useful for those of us who don't work with database servers and their content often. If one completes the database section, all that is left is testing the connectivity with FastAPI as found in the [primary readme](../../README.md#usage). webMethods integration server and client [setup](../../z_non-python_resources/webmethods/about_webMethods.md) is the last section.
 
 Internet searches should provide numerous helpful suggestions about every topic in this file. Experiencing the most problems in this section with configuring access, I found the footnote references helpful.
 
