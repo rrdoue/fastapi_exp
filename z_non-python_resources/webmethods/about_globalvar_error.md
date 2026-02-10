@@ -53,7 +53,7 @@ Integration Server has a number of advanced configuration parameters used to man
 
    - The scheduled task should run as expected at the designated time.
 
-   - Refer to the [section](./about_webMethods.md###-extra-credit:-schedule-the-service-to-run-automatically) about scheduled tasks in the webMethods readme as required.
+   - Refer to the [section](./about_webMethods.md#extra-credit-schedule-the-service-to-run-automatically) about scheduled tasks in the webMethods readme as required.
 
 9. Assuming that the task ran to completion, the scheduled task Last Error column should show `N/A` and Server > Service usage will show the latest run time of the scheduled task. Confirm the file was created as expected in the directory found in Settings > Global variables, EXPORT_FILE_PATH.
 
