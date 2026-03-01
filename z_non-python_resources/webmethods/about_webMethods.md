@@ -334,6 +334,10 @@ This problem will probably not occur during your testing, but an unexpected erro
 
 This error prevents the Status from changing from Suspended to Active on the scheduler page. If you would like to resolve this problem and retry the scheduled task, refer to this vendor [workaround](./about_globalvar_error.md). Resolving the error using the suggested fix does not appear to affect functionality or operation. The service runs as expected in Service Designer and in the Administrator ui. The problem only occurs when running the service as a scheduled task.
 
+## Shutdown
+
+Please refer to the primary readme's [integration server shutdown section](../../README.md#webmethods-shutdown) for webMethods shutdown instructions.
+
 ## End
 
 If you've gotten this far, congratulations on staying with the project! There's more in this project than I expected, or documentation is just more time-consuming.

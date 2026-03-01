@@ -192,6 +192,59 @@ At a minimum, one can test the FastAPI installation by executing the Hello World
 
 Instructions for running the client integration in webMethods are located in the webMethods readme [Usage](./z_non-python_resources/webmethods/about_webMethods.md#usage-testing-and-running-the-client-integration-in-integration-server) section. We realize that some people may be interested only in the FastAPI example, or the FastAPI-PostgreSQL combination. After installing and configuring the webMethods integration server and importing the Gne_HR_Sample.zip [package](./z_non-python_resources/webmethods) included in the webMethods directory of the project repository, one can execute the webMethods service that calls FastAPI and creates an export file.
 
+### Shutting Everything Down
+
+Other readmes provide instructions on installing, configuring, and starting the PostgreSQL database and client webMethods applications. This section provides a summary for shutting everything down, starting with FastAPI.
+
+#### FastAPI Shutdown
+
+As described earlier, since we did not set up FastAPI as a running process outside the terminal application, executing control-c in the server terminal session ends the process.
+
+#### Database Shutdown
+
+Absent any easier ways to shut down PostgreSQL, like using a Windows Task Manager service control or Linux service command, the following should shut down the database server successfully:
+
+```bash
+$ cd /<postgresql_installation_directory>
+# stop the server using pg_ctl
+$ /<postgresql_installation_directory>/bin/pg_ctl -D <data_directory> stop -m (fast | smart)
+# for example
+$ /Applications/Postgres.app/Contents/Versions/latest/bin/pg_ctl -D /Users/rrdoue/Library/ApplicationSupport/Postgres/var-14 stop -m fast
+# check the server log file for further information
+$ cd <data_directory>/log(s)
+# look for a line in the file below like '<date_and_time> [pid] LOG:  database system was shut down at <date_and_time>'
+$ tail -f postgresql-<date_and_time>.log
+```
+
+#### webMethods Shutdown
+
+Shutting down the integration server has two options, one from the administrator application and another from a terminal. Remember on Windows there is is no Integration Server service in Task Manager.
+
+##### Administrator Application
+
+   1. As desired, in a terminal, go to the logs directory and tail the server.log file to observe the shutdown.
+
+      ```bash
+      $ cd <service_designer_home>/IntegrationServer/logs
+      $ tail -f server.log
+      ```
+
+   2. Select the Server control icon in the upper-righthand corner of the Administrator application, then select `Shut down or restart`.
+
+   3. In the Shut down or restart table, select any of them, for example, select `Immediately`, then select `Shut Down`. For our use case, there should be no other running services since this is the only integration.
+
+   4. Confirm the action by selecting `OK`. The ui should confirm the restart with a `Shutdown is in progress.` in the light blue banner above the table.
+
+##### Terminal or Command Line
+
+```bash
+$ cd <service_designer_home>/IntegrationServer/bin
+# shut down the server
+$ <service_designer_home>/IntegrationServer/bin/shutdown.sh
+```
+
+Monitor the integration server log file as desired.
+
 ## Project Structure
 
 ```
