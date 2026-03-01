@@ -8,6 +8,22 @@ This project uses PostgreSQL as its host database server. That is, we set up the
 
 We can't provide many recommendations about installing PostgreSQL since our experience is limited to running a network of older MacOS systems, using a MacOS-only version of PostgreSQL from eggerapps.at. Ours is version 14, way behind the latest version available, but more than enough for our simple database. Our database host is one of those older Macintosh systems running that server build with another system using their gui client, Postico.
 
+### Starting PostgreSQL
+
+Windows probably provides a Task Manager solution for starting and stopping PostgreSQL and Linux distributions running the database server probably also offer easier methods. We'll provide a command-line sequence so one at least has a startup example here.
+
+```bash
+$ cd /<postgresql_installation_directory>
+# start the server using pg_ctl
+$ /<postgresql_installation_directory>/bin/pg_ctl -D <data_directory> start
+# for example
+$ /Applications/Postgres.app/Contents/Versions/latest/bin/pg_ctl -D /Users/rrdoue/Library/ApplicationSupport/Postgres/var-14 start
+# check the server log file for information
+$ cd <data_directory>/log(s)
+# look for a line in the file below like '<date_and_time> [pid] LOG:  database system is ready to accept connections'
+$ tail -f postgresql-<date_and_time>.log
+	```
+
 ## Configuration
 
 No matter what os one is running, accessing the server may require some configuration changes to the pg_hba.conf file after installation. Configuration may be easier when running both the FastAPI instance and PostgreSQL server on the same host, since the default PostgreSQL installation includes lines for localhost access. The lines in the pg_hba.conf file that support local access include lines 89, 91, and 93. These lines allow access for any user that has a user id on the local system because of the trust entry in the METHOD column. However, those same local users must have access to the hr_sample database, and this depends on who installed it along with additional granted access.
@@ -49,7 +65,7 @@ Find a process that works for you and follow it.
 
 Reloading the configuration using the PostgreSQL utility called pg_ctl does not vary with operating system, but there are alternatives that may work better for you. For example, modern linux versions using systemd appear to offer alternatives using that. Running MacOS, I tend to execute the reload from a terminal command line, but not everyone is comfortable with the terminal. As an example, the full reload command takes the form of the following:
 
-`/<installation_directory>/bin/pg_ctl -D <data_directory> reload`
+`/<postgresql_installation_directory>/bin/pg_ctl -D <data_directory> reload`
 
 and for our v14 installation on MacOS, the command looks like the following:
 
@@ -81,15 +97,19 @@ The two files in [hr_sample_export](./database/hr_sample_export) are PostgreSQL 
 
 To import the database, (g)unzip the file, then run pg_restore with something like the following:
 
-`/<installation_directory>/bin/pg_restore -U <user_id> -h <server> -p <port> hr_sample_dump_w_create_wo_acls.sql`
+`/<postgresql_installation_directory>/bin/pg_restore -U <user_id> -h <server> -p <port> hr_sample_dump_w_create_wo_acls.sql`
 
 For our installation, we haven't run the command, but it should resemble something like the following:
 
 `/Applications/Postgres.app/Contents/Versions/latest/bin/pg_restore -U rrdoue -h localhost -p 5432 hr_sample_dump_w_create_wo_acls.sql`
 
+## Shutdown
+
+Please refer to the primary readme's [database shutdown section](../../README.md#database-shutdown) for PostgreSQL shutdown instructions.
+
 ## End
 
-Hopefully this was useful for those of us who don't work with database servers and their content often. If one completes the database section, all that is left is testing the connectivity with FastAPI as found in the [primary readme](../../README.md#usage). webMethods integration server and client [setup](../../z_non-python_resources/webmethods/about_webMethods.md) is the last section.
+Hopefully this was useful for those of us who don't work with database servers and their content often. If one completes the database section and testing the connectivity with FastAPI as found in the [primary readme](../../README.md#usage) is successful, all that is left is webMethods integration server and client [setup](../../z_non-python_resources/webmethods/about_webMethods.md) in the webMethods client section.
 
 Internet searches should provide numerous helpful suggestions about every topic in this file. Experiencing the most problems in this section with configuring access, I found the footnote references helpful.
 
