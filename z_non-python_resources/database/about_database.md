@@ -22,7 +22,7 @@ $ /Applications/Postgres.app/Contents/Versions/latest/bin/pg_ctl -D /Users/rrdou
 $ cd <data_directory>/log(s)
 # look for a line in the file below like '<date_and_time> [pid] LOG:  database system is ready to accept connections'
 $ tail -f postgresql-<date_and_time>.log
-	```
+```
 
 ## Configuration
 
