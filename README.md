@@ -70,10 +70,10 @@ $ uv sync
 $ cd to/fastapi_exp
 # create and activate a virtual environment
 $ python -m venv .venv
-# On Windows, use .venv\Scripts\activate, although PowerShell seems to have a slightly different form of the command
+# On Windows, use .venv\Scripts\activate, although PowerShell uses .venv\Scripts\a\Activate.ps1 
 $ source .venv/bin/activate
 
-# The shutdown command for the virtual environment
+# The shutdown command for the virtual environment for all OSs
 $ deactivate
 
 # install dependencies
